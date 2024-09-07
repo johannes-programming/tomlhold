@@ -25,46 +25,46 @@ def _copy_list(value):
     return [_copy(v) for v in value]
 
 
-def _get_keys(key):
-    if type(key) is str:
-        return [key]
+def _get_keys(keys, /):
+    if type(keys) is str:
+        return [keys]
     else:
-        return list(key)
+        return list(keys)
 
 
 class Holder:
 
-    def __delitem__(self, key):
-        keys = _get_keys(key)
+    def __delitem__(self, keys):
+        keys = _get_keys(keys)
         if not keys:
             self.clear()
             return
         ans = self._data
         while len(keys) > 1:
             ans = ans[keys.pop(0)]
-        del ans[key[0]]
+        del ans[keys[0]]
 
-    def __getitem__(self, key):
-        keys = _get_keys(key)
+    def __getitem__(self, keys):
+        keys = _get_keys(keys)
         ans = self._data
         for k in keys:
             ans = ans[k]
-        ans = self._copy(ans)
+        ans = _copy(ans)
         return ans
 
     def __init__(self, string) -> None:
         self._data = tomllib.loads(string)
 
-    def __setitem__(self, key, value):
-        keys = _get_keys(key)
+    def __setitem__(self, keys, value):
+        keys = _get_keys(keys)
         if not keys:
             self.data = value
             return
-        value = self._copy(value)
+        value = _copy(value)
         ans = self._data
         while len(keys) > 1:
             ans = ans[keys.pop(0)]
-        ans[key[0]] = value
+        ans[keys[0]] = value
 
     def __str__(self) -> str:
         return tomli_w.dumps(self._data)
@@ -78,7 +78,12 @@ class Holder:
 
     @data.setter
     def data(self, value):
+        print("\n" * 10)
+        print(value)
+        print("\n" * 2)
         self._data = _copy_dict(value)
+        print(self._data)
+        print("\n" * 10)
 
     @data.deleter
     def data(self):
