@@ -1,36 +1,8 @@
-[b]
-build-backend = "setuptools.build_meta"
-requires = [
-    "setuptools>=61.0.0",
-]
-
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
     "setuptools>=61.0.0",
 ]
-
-[p]
-authors = [
-    { email = "johannes-programming@mailfence.com", name = "Johannes" },
-]
-classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-]
-description = "tomlhold"
-name = "tomlhold"
-readme = "README.rst"
-requires-python = ">=3.12"
-version = "0.0.5+local.1"
-
-[p.license]
-file = "LICENSE.txt"
-
-[p.urls]
-Download = "https://pypi.org/project/tomlhold/#files"
-Source = "https://github.com/johannes-programming/tomlhold"
 
 [project]
 authors = [
@@ -45,7 +17,7 @@ description = "tomlhold"
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.12"
-version = "0.0.4"
+version = "0.0.5"
 
 [project.license]
 file = "LICENSE.txt"
