@@ -23,7 +23,7 @@ description = "tomlhold"
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.12"
-version = "0.0.5+local"
+version = "0.0.5+local.1"
 
 [p.license]
 file = "LICENSE.txt"
