@@ -25,10 +25,17 @@ def _copy_list(value):
     return [_copy(v) for v in value]
 
 
+def _get_keys(key):
+    if type(key) is str:
+        return [key]
+    else:
+        return list(key)
+
+
 class Holder:
 
     def __delitem__(self, key):
-        keys = self._keys(key)
+        keys = _get_keys(key)
         if not keys:
             self.clear()
             return
@@ -38,7 +45,7 @@ class Holder:
         del ans[key[0]]
 
     def __getitem__(self, key):
-        keys = self._keys(key)
+        keys = _get_keys(key)
         ans = self._data
         for k in keys:
             ans = ans[k]
@@ -49,7 +56,7 @@ class Holder:
         self._data = tomllib.loads(string)
 
     def __setitem__(self, key, value):
-        keys = self._keys(key)
+        keys = _get_keys(key)
         if not keys:
             self.data = value
             return
@@ -61,13 +68,6 @@ class Holder:
 
     def __str__(self) -> str:
         return tomli_w.dumps(self._data)
-
-    @staticmethod
-    def _keys(key):
-        if type(key) is str:
-            return [key]
-        else:
-            return list(key)
 
     def clear(self):
         return self._data.clear()
