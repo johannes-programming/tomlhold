@@ -78,12 +78,7 @@ class Holder:
 
     @data.setter
     def data(self, value):
-        print("\n" * 10)
-        print(value)
-        print("\n" * 2)
         self._data = _copy_dict(value)
-        print(self._data)
-        print("\n" * 10)
 
     @data.deleter
     def data(self):
