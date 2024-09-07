@@ -52,8 +52,8 @@ class Holder:
         ans = _copy(ans)
         return ans
 
-    def __init__(self, string) -> None:
-        self._data = tomllib.loads(string)
+    def __init__(self, string="") -> None:
+        self._data = tomllib.loads(str(string))
 
     def __setitem__(self, keys, value):
         keys = _get_keys(keys)
