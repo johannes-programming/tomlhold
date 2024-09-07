@@ -49,7 +49,7 @@ class Holder:
         ans = self._data
         for k in keys:
             ans = ans[k]
-        ans = self._copy(ans)
+        ans = _copy(ans)
         return ans
 
     def __init__(self, string) -> None:
@@ -60,7 +60,7 @@ class Holder:
         if not keys:
             self.data = value
             return
-        value = self._copy(value)
+        value = _copy(value)
         ans = self._data
         while len(keys) > 1:
             ans = ans[keys.pop(0)]
