@@ -26,7 +26,7 @@ def _copy_list(value):
 
 
 def _get_keys(keys, /):
-    if type(keys) is str:
+    if issubclass(type(keys), str):
         return [keys]
     else:
         return list(keys)
@@ -54,6 +54,9 @@ class Holder:
 
     def __init__(self, string="") -> None:
         self._data = tomllib.loads(str(string))
+
+    def __repr__(self):
+        return "%s(%r)" % (type(self).__name__, str(self))
 
     def __setitem__(self, keys, value):
         keys = _get_keys(keys)
@@ -100,11 +103,11 @@ class Holder:
         except KeyError:
             return default
 
-    @staticmethod
-    def load(file):
+    @classmethod
+    def load(cls, file):
         with open(file, "r") as s:
             text = s.readlines()
-        return Holder(text)
+        return cls(text)
 
     def setdefault(self, *keys, default):
         if not keys:
@@ -122,8 +125,9 @@ class Holder:
 
     def update(self, *others):
         for o in others:
-            if type(o) is Holder:
-                d = o._data
+            if issubclass(type(o), Holder):
+                d = o.data
             else:
-                d = _copy_dict(dict(o))
+                d = o
+            d = _copy_dict(dict(o))
             self._data.update(d)
