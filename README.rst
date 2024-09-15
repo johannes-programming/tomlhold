@@ -5,12 +5,12 @@ tomlhold
 Overview
 --------
 
-A holder for TOML data.
+A dict-like holder for TOML data.
 
 Installation
 ------------
 
-To install tomlhold, you can use `pip`. Open your terminal and run:
+To install tomlhold, you can use ``pip``. Open your terminal and run:
 
 .. code-block:: bash
 
@@ -93,13 +93,14 @@ This project is licensed under the MIT License.
 Links
 -----
 
+* `Documentation <https://pypi.org/project/tomlhold>`_
 * `Download <https://pypi.org/project/tomlhold/#files>`_
 * `Source <https://github.com/johannes-programming/tomlhold>`_
 
 Credits
 -------
 
-- Author: Johannes
-- Email: johannes-programming@mailfence.com
+* Author: Johannes
+* Email: johannes-programming@mailfence.com
 
-Thank you for using tomlhold!
+Thank you for using ``tomlhold``!
