@@ -1,6 +1,8 @@
 import datetime
+import functools
 import tomllib
 
+import datahold
 import tomli_w
 
 __all__ = ["Holder"]
@@ -18,7 +20,13 @@ def _copy(value):
 
 
 def _copy_dict(value):
-    return {str(k): _copy(value[k]) for k in value.keys()}
+    return _copy_dict_1(**value)
+
+
+def _copy_dict_1(**kwargs):
+    for k in kwargs.keys():
+        kwargs[k] = _copy(kwargs[k])
+    return kwargs
 
 
 def _copy_list(value):
@@ -32,7 +40,7 @@ def _get_keys(keys, /):
         return list(keys)
 
 
-class Holder:
+class Holder(datahold.OkayDict):
 
     def __delitem__(self, keys):
         keys = _get_keys(keys)
@@ -72,6 +80,7 @@ class Holder:
     def __str__(self) -> str:
         return tomli_w.dumps(self._data)
 
+    @functools.wraps(dict.clear)
     def clear(self):
         return self._data.clear()
 
@@ -122,12 +131,3 @@ class Holder:
         if type(ans) is dict:
             return ans.setdefault(keys[0], default)
         return ans[keys[0]]
-
-    def update(self, *others):
-        for o in others:
-            if issubclass(type(o), Holder):
-                d = o.data
-            else:
-                d = o
-            d = _copy_dict(dict(o))
-            self._data.update(d)
