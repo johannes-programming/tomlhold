@@ -6,7 +6,15 @@ import datahold
 import tomli_w
 
 __all__ = ["Holder"]
-_TYPES = (bool, datetime.datetime, datetime.date, datetime.time, str, int, float)
+_TYPES = (
+    bool,
+    datetime.date,
+    datetime.datetime,
+    datetime.time,
+    float,
+    int,
+    str,
+)
 
 
 def _copy(value):
@@ -20,24 +28,29 @@ def _copy(value):
 
 
 def _copy_dict(value):
-    return _copy_dict_1(**value)
-
-
-def _copy_dict_1(**kwargs):
-    for k in kwargs.keys():
-        kwargs[k] = _copy(kwargs[k])
-    return kwargs
+    return {str(k): _copy(value[k]) for k in value.keys()}
 
 
 def _copy_list(value):
     return [_copy(v) for v in value]
 
 
-def _get_keys(keys, /):
-    if issubclass(type(keys), str):
-        return [keys]
+def _get_key(k, /):
+    if issubclass(type(k), str):
+        return str(k)
     else:
-        return list(keys)
+        return int(k)
+
+
+def _get_keys(keys, /):
+    try:
+        return [_get_key(keys)]
+    except:
+        pass
+    ans = list()
+    for k in keys:
+        ans.append(_get_key(k))
+    return ans
 
 
 class Holder(datahold.OkayDict):
@@ -71,11 +84,16 @@ class Holder(datahold.OkayDict):
         if not keys:
             self.data = value
             return
-        value = _copy(value)
-        ans = self._data
+        data = self.data
+        ans = data
         while len(keys) > 1:
-            ans = ans[keys.pop(0)]
+            k = keys.pop(0)
+            if type(ans) is dict and type(keys[0]) is str:
+                ans.setdefault(k, {})
+            ans = ans[k]
+        value = _copy(value)
         ans[keys[0]] = value
+        self._data = data
 
     def __str__(self) -> str:
         return tomli_w.dumps(self._data)
@@ -122,12 +140,18 @@ class Holder(datahold.OkayDict):
         if not keys:
             return _copy_dict(self._data)
         keys = list(keys)
-        ans = self._data
+        data = self.data
+        ans = data
         while len(keys) > 1:
             k = keys.pop(0)
             if type(ans) is dict and type(keys[0]) is str:
                 ans.setdefault(k, {})
             ans = ans[k]
-        if type(ans) is dict:
-            return ans.setdefault(keys[0], default)
-        return ans[keys[0]]
+        if type(ans) is not dict or keys[0] in ans.keys():
+            ans = ans[keys[0]]
+            self._data = data
+            return ans
+        else:
+            ans[keys[0]] = _copy(default)
+            self._data = data
+            return ans[keys[0]]
