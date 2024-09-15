@@ -46,7 +46,7 @@ Here's a simple example.
     print(h["database", "connection_max"])
 
     # Example 4: Add a new section and key-value pair
-    h["new_section"] = dict(new_key = "New Value")
+    h["new_section", "new_key"] = "New Value"
     print(h["new_section", "new_key"])
 
     # Example 5: TOML compatibility enforcement (invalid TOML raises an error)
