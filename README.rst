@@ -36,18 +36,18 @@ Here's a simple example.
     h = tomlhold.Holder(toml_data)
 
     # Access a single value
-    print(h["database", "server"])  # Output: "192.168.1.1"
+    print(h["database", "server"])
 
     # Example 2: Access nested values using multiple indices
-    print(h["database", "ports", 2])  # Output: 8002
+    print(h["database", "ports", 2])
 
     # Example 3: Update a value
     h["database", "connection_max"] = 10000
-    print(h["database", "connection_max"])  # Output: 10000
+    print(h["database", "connection_max"])
 
     # Example 4: Add a new section and key-value pair
     h["new_section"] = dict(new_key = "New Value")
-    print(h["new_section", "new_key"])  # Output: "New Value"
+    print(h["new_section", "new_key"])
 
     # Example 5: TOML compatibility enforcement (invalid TOML raises an error)
     try:
