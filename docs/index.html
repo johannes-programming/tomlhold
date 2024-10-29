@@ -1,93 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://www.johannes-programming.online/styles.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>tomlhold Project Documentation</title>
+        <link rel="stylesheet" href="https://www.johannes-programming.online/styles.css">
+    </head>
     <body>
-        <div id="top"></div>
-        <div id="overview">
-            <h2>Overview</h2>
-            <p>A dict-like holder for TOML data.</p>
-        </div>
-        <div id="install"></div>
-        <div id="example">
-            <h2>Example</h2>
-            <p>Here's a simple example:</p>
-
-            <pre><code>
-import tomlhold
-
-# Example 1: Create Holder from a TOML string
-toml_data = """
-[database]
-server = "192.168.1.1"
-ports = [ 8001, 8001, 8002 ]
-connection_max = 5000
-enabled = true
-"""
-h = tomlhold.Holder(toml_data)
-
-# Access a single value
-print(h["database", "server"])
-
-# Example 2: Access nested values using multiple indices
-print(h["database", "ports", 2])
-
-# Example 3: Update a value
-h["database", "connection_max"] = 10000
-print(h["database", "connection_max"])
-
-# Example 4: Add a new section and key-value pair
-h["new_section", "new_key"] = "New Value"
-print(h["new_section", "new_key"])
-
-# Example 5: TOML compatibility enforcement (invalid TOML raises an error)
-try:
-    h["new_section", "invalid_key"] = {"invalid": object()}
-except Exception as e:
-    print(f"Error: {e}")  # Ensures only TOML-compatible data is allowed
-
-# Example 6: Create Holder from a dictionary and convert it to TOML format
-data_dict = {
-    "title": "Example",
-    "owner": {
-        "name": "John Doe",
-        "dob": "1979-05-27T07:32:00Z"
-    }
-}
-h = tomlhold.Holder.fromdict(data_dict)
-print(h)
-
-# Example 7: Iterate through Holder object like a regular dictionary
-for section, values in h.items():
-    print(section, values)
-
-# Output:
-    # 192.168.1.1
-    # 8002
-    # 10000
-    # New Value
-    # Error: type &lt;class 'object'&gt; is not allowed
-    # title = "Example"
-    #
-    # [owner]
-    # name = "John Doe"
-    # dob = "1979-05-27T07:32:00Z"
-    #
-    # title Example
-    # owner {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}
-    
-</code></pre>
-        </div>
-        <div id="testing"></div>
-        <div id="license"></div>
-        <div id="links"></div>
-        <div id="credits"></div>
+        <header id="tomlhold">
+            <h1>The <code><a href="https://tomlhold.johannes-programming.online">tomlhold</a></code> project homepage</h1>
+        </header>
+        <p>A dict-like holder for TOML data.</p>
+        <h2>Useful Links:</h2>
+        <ul>
+            <li>
+                Download: 
+                <a href="https://pypi.org/project/tomlhold/#files">
+                    https://pypi.org/project/tomlhold/#files
+                </a>
+            </li>
+            <li>
+                Impressum: 
+                <a href="https://tomlhold.johannes-programming.online/impressum.html">
+                    https://tomlhold.johannes-programming.online/impressum.html
+                </a>
+            </li>
+            <li>
+                Index: 
+                <a href="https://pypi.org/project/tomlhold/">
+                    https://pypi.org/project/tomlhold/
+                </a>
+            </li>
+            <li>
+                Installation: 
+                <a href="https://tomlhold.johannes-programming.online/install.html">
+                    https://tomlhold.johannes-programming.online/install.html
+                </a>
+            </li>
+            <li>
+                Source: 
+                <a href="https://github.com/johannes-programming/tomlhold">
+                    https://github.com/johannes-programming/tomlhold
+                </a>
+            </li>
+            <li>
+                Website: 
+                <a href="https://tomlhold.johannes-programming.online/">
+                    https://tomlhold.johannes-programming.online/
+                </a>
+            </li>
+        </ul>
+        <p>Thank you for using <a>tomlhold</a>!</p>
+        <nav>
+            <ul>
+                <li>
+                </li>
+                <li>
+                    <a href="/install.html">
+                        <p>Next &rarr;</p>
+                        <p>Installation</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <script src="https://www.johannes-programming.online/script.js"></script>
+        <script>modifyLinks();</script>
     </body>
-    <script src="https://www.johannes-programming.online/script.js"></script>
-    <script>
-        setupBasicProject('tomlhold');
-    </script>
 </html>
