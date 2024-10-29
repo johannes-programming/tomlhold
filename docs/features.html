@@ -16,38 +16,32 @@
         <div id="Holder">
             <h2>The <code>Holder</code> class </h2>
             <p>
-                <code><a href="#Local">Holder</a></code> 
+                <code><a href="#Holder">Holder</a></code> 
                 is a dict-like class specifically for handling toml.
                 It implements all operations and methods of <code>dict</code>. 
             </p>
             <h4>
                 <code>
                     <i>class</i> 
-                    v440.core.Local.<b>Local(</b><i>data</i>:
+                    tomlhold.<b>Holder(</b><i>data</i>:
                     <i>Any</i> = <i>None</i><b>)</b>
                 </code>
             </h4>
             <section>
                 <p> Create a new <code>
-                        <a href="#Local">Local</a>
+                        <a href="#Holder">Holder</a>
                     </code> object. 
-                    The one (non required) positional argument 
-                    is passed to its <code><a href="#Local.data">data</a></code> property. 
                 </p>
-                <h4 id="Local.data">
-                    <code>
-                        <b>data</b>
-                    </code>
-                </h4>
+                <h4 id="Holder.data"><code><b>data</b></code></h4>
                 <section> 
                     The 
                     <code><a href="#Local.data">data</a></code> 
                     property of 
                     <code><a href="#Local">Local</a></code> 
                     represents the entire instance. 
-                    Its getter returns a list. 
-                    Its setter interprets the given value as a local version identifier 
-                    and uses this to change the instance accordingly. 
+                    Its getter returns a dict. 
+                    Its setter interprets the given value 
+                    to change the instance accordingly. 
                 </section>
             </section>
         </div>
