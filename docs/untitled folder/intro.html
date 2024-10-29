@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Installing v440</title>
+        <link rel="stylesheet" href="https://www.johannes-programming.online/styles.css">
+    </head>
+    <body>
+        <header id="header">
+            <h1>Introduction to <code><a href="https://v440.johannes-programming.online">v440</a></code></h1>
+        </header>
+<h3>Core Components</h3>
+<p>
+    The <code><a href="https://v440.johannes-programming.online">v440</a></code> module 
+    is built around the class <code><a href="/features#Version">v440.Version</a></code>. 
+    Its instances are mutable representations of <a href="https://peps.python.org/pep-0440/">PEP 440</a> 
+    conforming versions 
+    allowing to manipulate the specific parts of the version identifiers individually. 
+</p>
+<pre><code>
+from v440 import Version
+
+# Create an instance of the v440.Version class
+v = Version("1.2.3")
+
+# The instance allows manipulation of individual parts of the version
+v.release.major = 2
+v.release.minor = 5
+v.pre = "beta.1"
+v.local = "local.7.dev"
+
+# Print the modified version
+print(v)  # Output: 2.5.3b1+local.7.dev
+
+</code></pre>
+<h3>Quick Links for the properties of <code>v440.Version</code></h3>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Getter</th>
+            <th>Setter</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="/features#Version.base">base</a></td>
+            <td>
+                Represents <a href="/features#Version.epoch"><code>epoch</code></a> 
+                and <a href="/features#Version.release"><code>release</code></a>.
+            </td>
+            <td>
+                Gives a copy trunkated 
+                to only <a href="/features#Version.epoch"><code>epoch</code></a> 
+                and <a href="/features#Version.release"><code>release</code></a>. 
+            </td>
+            <td>
+                Overwrites <a href="/features#Version.epoch"><code>epoch</code></a> 
+                and <a href="/features#Version.release"><code>release</code></a>.</td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.data">data</a></td>
+            <td>Represents the entire instance.</td>
+            <td>Gives string representation.</td>
+            <td>Overwrites all properties.</td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.dev">dev</a></td>
+            <td>Represents the devrelease part of the version identifier.</td>
+            <td>Gives <code>None</code> or a nonnegative integer.</td>
+            <td>Converts and saves the value.</td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.epoch">epoch</a></td>
+            <td>Represents the epoch part of the version identifier.</td>
+            <td>Gives a nonnegative integer.</td>
+            <td>Converts and saves the value.</td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.local">local</a></td>
+            <td>Represents the local part of the version identifier.</td>
+            <td>
+                Gives an object of the class <code><a href="/features#Local">Local</a></code>.
+            </td>
+            <td>
+                Converts the value and saves it inside 
+                of <a href="/features#Version.local"><code>local</code></a>.
+            </td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.post">post</a></td>
+            <td>Represents the postrelease part of the version identifier.</td>
+            <td>Gives <code>None</code> or a nonnegative integer.</td>
+            <td>Converts and saves the value.</td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.pre">pre</a></td>
+            <td>Represents the prerelease part of the version identifier.</td>
+            <td>Gives an object of the class <code><a href="/features#Pre">Pre</a></code>.</td>
+            <td>
+                Converts the value and saves it 
+                inside of <a href="/features#Version.pre"><code>pre</code></a>.
+            </td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.public">public</a></td>
+            <td>
+                Represents the public part of the version identifier 
+                (everything but <a href="/features#Version.local"><code>local</code></a>).
+            </td>
+            <td>
+                Gives a copy without <a href="/features#Version.local"><code>local</code></a>.
+            </td>
+            <td>
+                Overwrites all properties 
+                except for <a href="/features#Version.local"><code>local</code></a>.
+            </td>
+        </tr>
+        <tr>
+            <td><a href="/features#Version.release">release</a></td>
+            <td>Represents the release part of the version identifier.</td>
+            <td>Gives a specialized list-like object that can be altered.</td>
+            <td>
+                Converts the value and saves it 
+                inside of <a href="/features#Version.release"><code>release</code></a>.
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h3>Version Object Examples</h3>
+<pre><code>
+v = Version("1.0.0")
+print(str(v))  # Output: 1.0.0
+v.release[1] = 5
+print(str(v))  # Output: 1.5.0
+
+</code></pre>
+<footer>
+    <nav>
+        <ul>
+            <li>
+                <a href="/install.html">
+                    <p>&larr; Previous</p>
+                    <p>Installing <code>v440</code></p>
+                </a>
+            </li>
+            <li>
+                <a href="/features.html">
+                    <p>Next &rarr;</p>
+                    <p>Features of <code>v440</code></p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</footer>
+</body>
+</html>

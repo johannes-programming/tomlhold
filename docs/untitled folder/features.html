@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Features of v440</title>
+        <link rel="stylesheet" href="https://www.johannes-programming.online/styles.css">
+    </head>
+    <body id="top">
+        <header id="header">
+            <h1> Features of <code>
+                    <a href="https://v440.johannes-programming.online">v440</a>
+                </code>
+            </h1>
+        </header>
+        <div id="Local">
+            <h2>The <code>Local</code> class </h2>
+            <p>
+                <code><a href="#Local">Local</a></code> 
+                is a list-like class specifically for the 
+                <code><a href="#Version.local">local</a></code> 
+                property of 
+                <code><a href="#Version">Version</a></code>. 
+                It implements all operations and methods of <code>list</code>. 
+                All items are are nonnegative integers or nonempty strings.
+            </p>
+            <h4>
+                <code>
+                    <i>class</i> 
+                    v440.core.Local.<b>Local(</b><i>data</i>: 
+                    <i>Any</i> = <i>None</i><b>)</b>
+                </code>
+            </h4>
+            <section>
+                <p> Create a new <code>
+                        <a href="#Local">Local</a>
+                    </code> object. 
+                    The one (non required) positional argument 
+                    is passed to its <code><a href="#Local.data">data</a></code> property. 
+                </p>
+                <h4 id="Local.data">
+                    <code>
+                        <b>data</b>
+                    </code>
+                </h4>
+                <section> 
+                    The 
+                    <code><a href="#Local.data">data</a></code> 
+                    property of 
+                    <code><a href="#Local">Local</a></code> 
+                    represents the entire instance. 
+                    Its getter returns a list. 
+                    Its setter interprets the given value as a local version identifier 
+                    and uses this to change the instance accordingly. 
+                </section>
+            </section>
+        </div>
+        <div id="Pre">
+            <h2>The <code>Pre</code> class </h2>
+            <p>
+                <code><a href="#Pre">Pre</a></code> 
+                is a list-like class specifically for the 
+                <code><a href="#Version.pre">pre</a></code> 
+                property of 
+                <code><a href="#Version">Version</a></code>. 
+                It implements all operations and methods of <code>list</code>. 
+                However the possibilities of modification are limited by strong constrains, 
+                especially that there must always be exactly two items, 
+                <code><a href="#Pre.phase">phase</a></code> 
+                and 
+                <code><a href="#Pre.subphase">subphase</a></code>. 
+                The constraints ensures that pre-releases 
+                maintain their intended structure and semantics. 
+                Prereleases are ordered based on their phase 
+                and the numerical component within that phase. 
+                For instance, alpha releases come before beta releases, 
+                which in turn precede release candidates.
+            </p>
+            <h4>
+                <code>
+                    <i>class</i> v440.core.Pre.<b>Pre(</b><i>data</i>: 
+                    <i>Any</i> = <i>None</i><b>)</b>
+                </code>
+            </h4>
+            <section>
+                <p> Create a new 
+                    <code><a href="#Pre">Pre</a></code> object. 
+                    The one (non required) positional argument is passed to its 
+                    <code><a href="#Pre.data">data</a></code> property. 
+                </p>
+                <div id="Pre.data">
+                    <h4>
+                        <code>
+                            <b>data</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Pre.data">data</a>
+                        </code> property of <code>
+                            <a href="#Pre">Pre</a>
+                        </code> 
+                        represents the entire instance. 
+                        Its getter returns a list of length 2 
+                        containing the values of phase and subphase. 
+                        Its setter interprets the given value 
+                        as a prelease identifier 
+                        and uses this to change phase and subphase accordingly. 
+                    </section>
+                </div>
+                <div id="Pre.isempty">
+                    <h4>
+                        <code>
+                            <b>isempty()</b> -> <i>bool</i>
+                        </code>
+                    </h4>
+                    <section> 
+                        The <code><a href="#Pre.isempty">isempty</a></code> 
+                        method returns a boolean value. 
+                        <code>True</code> 
+                        if 
+                        <code><a href="#Pre.data">data</a></code> 
+                        is equal to 
+                        <code>[None, None]</code> 
+                        meaning that the version 
+                        is not an alpharelease, betarelease, or release candidate, 
+                        otherwise <code>False</code>. 
+                    </section>
+                </div>
+                <div id="Pre.phase">
+                    <h4>
+                        <code>
+                            <b>phase</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Pre.phase">phase</a>
+                        </code> property of <code>
+                            <a href="#Pre">Pre</a>
+                        </code> is a <a href="http://keyalias.johannes-programming.online/">keyalias</a> for <code>0</code>. It take a value of <code>"a"</code> (for an alpha release), <code>"b"</code> (for a beta release), or <code>"rc"</code> (for a release candidate) iff <code>
+                            <a href="#Pre.subphase">subphase</a>
+                        </code> is a nonnegative integer and the value <code>None</code> iff <code>
+                            <a href="#Pre.subphase">subphase</a>
+                        </code> is likewise <code>None</code>. </section>
+                </div>
+                <div id="Pre.subphase">
+                    <h4>
+                        <code>
+                            <b>subphase</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Pre.subphase">subphase</a>
+                        </code> property of <code>
+                            <a href="#Pre">Pre</a>
+                        </code> is a <a href="http://keyalias.johannes-programming.online/">keyalias</a> for <code>1</code>. It take a nonnegative integer value iff <code>
+                            <a href="Pre.phase">phase</a>
+                        </code> is a string and the value <code>None</code> iff <code>
+                            <a href="#Pre.phase">phase</a>
+                        </code> is likewise <code>None</code>. 
+                    </section>
+                </div>
+            </section>
+        </div>
+        <div id="Release">
+            <h2>The <code>Release</code> class </h2>
+            <p>
+                <code><a href="#Release">Release</a></code> 
+                is a list-like class specifically for the 
+                <code><a href="#Version.release">release</a></code> 
+                property of 
+                <code><a href="#Version">Version</a></code>. 
+                It implements all operations and methods of list. 
+                All items are are nonnegative integers. 
+                While normally all tailing zeros are dropped 
+                if it is necessary 
+                an unlimited amount of tailing zeros will be simulated.
+            </p>
+            <pre>
+							<code>
+from v440.core.Release import Release
+
+release = Release("1.2.3")
+print(release) 
+print(list(release)) 
+release.insert(1, 42)
+print(release)  
+release *= 2
+print(release) 
+release += [3, 1, 4]
+print(release) 
+print(release[0::2]) 
+print(release[10]) 
+print(release[100]) 
+
+#Output:
+    #1.2.3
+    #[1, 2, 3]
+    #1.42.2.3
+    #1.42.2.3.1.42.2.3
+    #1.42.2.3.1.42.2.3.3.1.4
+    #[1, 2, 1, 2, 3, 4]
+    #4
+    #0
+            </code>
+						</pre>
+            <h4>
+                <code>
+                    <i>class</i> v440.core.Release.<b>Release(</b><i>data</i>: 
+                    <i>Any</i> = <i>None</i><b>)</b>
+                </code>
+            </h4>
+            <section> Create a new 
+                <code><a href="#Release">Release</a></code> object. 
+                The one (non required) positional argument 
+                is passed to its <code>data</code> property. 
+                <div id="Release.bump">
+                    <h4>
+                        <code>
+                            <b>bump(</b><i>index</i>:
+                            <i>SupportsIndex</i> = <i>-1</i>,
+                            <i>amount</i>: <i>SupportsIndex</i> = <i>1</i><b>)</b> 
+                            -> <i>None</i>
+                        </code>
+                    </h4>
+                    <section> 
+                        The <code><a href="#Release.bump">bump</a></code> 
+                        method increases the item at the given <code>index</code> by <code>amount</code> 
+                        and sets all further items to zeros/cuts them off.
+                        <pre>
+										<code>
+from v440.core.Release import Release
+
+release = Release("1.2.3")
+print(release)
+release.bump(2)
+print(release)
+release.bump(-2, 10)
+print(release)
+release.bump(5)
+print(release)
+
+#Output:
+    #1.2.3
+    #1.2.4
+    #1.12
+    #1.12.0.0.0.1
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Release.data">
+                    <h4>
+                        <code><b>data</b></code>
+                    </h4>
+                    <section> 
+                        The <code><a href="#Release.data">data</a></code> 
+                        property of <code><a href="#Release">Release</a></code> 
+                        represents the entire instance. 
+                        Its getter returns a list. 
+                        Its setter interprets the given value 
+                        as a version release identifier 
+                        and uses this to change the instance accordingly. 
+                    </section>
+                </div>
+                <div id="Release.format">
+                    <h4>
+                        <code>
+                            <b>format(</b><i>cutoff</i> = <i>None</i><b>)</b> 
+                            -> <i>str</i>
+                        </code>
+                    </h4>
+                    <section> 
+                        The <code><a href="#Release.format">format</a></code> 
+                        method returns a string representation of the instance. 
+                        The argument <code>cutoff</code> 
+                        allows for modifying the length for the underlying list. 
+                        This is especially useful 
+                        because <code><a href="#Release">Release</a></code> 
+                        drops all the tailing zeros.
+                        <pre>
+										<code>
+from v440.core.Release import Release
+
+release = Release("1.3.3.7.0.0.0")
+print(release)
+print(release.format())
+print(release.format("2"))
+print(release.format("4"))
+print(release.format("6"))
+print(release.format("8"))
+print(release.format("-1"))
+print(release.format("-3"))
+#Output
+    #1.3.3.7
+    #1.3.3.7
+    #1.3
+    #1.3.3.7
+    #1.3.3.7.0.0
+    #1.3.3.7.0.0.0.0
+    #1.3.3
+    #1
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Release.major">
+                    <h4>
+                        <code><b>major</b></code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Release.major">major</a>
+                        </code> property of <code>
+                            <a href="#Release">Release</a>
+                        </code> is a <a href="http://keyalias.johannes-programming.online/">keyalias</a> for <code>0</code>. </section>
+                </div>
+                <div id="Release.minor">
+                    <h4>
+                        <code>
+                            <b>minor</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Release.minor">minor</a>
+                        </code> property of <code>
+                            <a href="#Release">Release</a>
+                        </code> is a <a href="http://keyalias.johannes-programming.online/">keyalias</a> for <code>1</code>. </section>
+                </div>
+                <div id="Release.micro">
+                    <h4>
+                        <code>
+                            <b>micro</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Release.micro">micro</a>
+                        </code> property of <code>
+                            <a href="#Release">Release</a>
+                        </code> is a <a href="http://keyalias.johannes-programming.online/">keyalias</a> for <code>2</code>. </section>
+                </div>
+                <div id="Release.patch">
+                    <h4>
+                        <code>
+                            <b>patch</b>
+                        </code>
+                    </h4>
+                    <section> 
+                        The 
+                        <code>
+                            <a href="#Release.patch">patch</a>
+                        </code> 
+                        property of 
+                        <code>
+                            <a href="#Release">Release</a>
+                        </code> 
+                        is another 
+                        <a href="http://keyalias.johannes-programming.online/">keyalias</a> 
+                        for <code>2</code>, 
+                        just as <code><a href="#Release.micro">micro</a></code>. </section>
+                </div>
+            </section>
+        </div>
+        <div id="Version">
+            <h2>The <code>Version</code> class </h2>
+            <p> The 
+                <code><a href="#Version">Version</a></code> 
+                class is the central class of the 
+                <code><a href="/">v440</a></code> project. 
+            </p>
+            <h4>
+                <code>
+                    <i>class</i> v440.<b>Version(</b><i>data</i>: <i>Any</i> = "0", /, 
+                    <i>**kwargs</i><b>)</b>
+                </code>
+            </h4>
+            <section> Create a new <code>
+                    <a href="#Version">Version</a>
+                </code> object. The one (non required) positional argument is passed to the <code>
+                    <a href="#Version.data">data</a>
+                </code> property. The keyword arguments are then passed to the properties defined by their keywords. <div id="Version.base">
+                    <h4>
+                        <code>
+                            <b>base</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.base">base</a>
+                        </code> property in the <code>
+                            <a href="/">v440</a>
+                        </code> versioning system is designed to provide a streamlined way to handle base versioning information. When accessing the base property, it returns a <code>
+                            <a href="#Version">Version</a>
+                        </code> object that retains only the epoch and release information, effectively omitting the pre-release, post-release, development, and local version components. This property is particularly useful for scenarios where a clear and simplified version identifier is required without the additional complexity of other version components. The <code>
+                            <a href="#Version.base">base</a>
+                        </code> property allows for both retrieval and modification. When setting <code>
+                            <a href="#Version.base">base</a>
+                        </code>, you can update <code>
+                            <a href="#Version.epoch">epoch</a>
+                        </code> and <code>
+                            <a href="#Version.release">release</a>
+                        </code> simultaneously, which helps maintain consistency in versioning and makes it easier to manage version hierarchies. Here's an example demonstrating the functionality of the <code>
+                            <a href="#Version.base">base</a>
+                        </code> property:
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("1.2.3")
+print("Initial version:", v)
+print("Base version:", v.base)
+
+v.base = "2.0"
+print("Updated version:", v)
+print("Base version:", v.base)
+
+v.base = "1!3.4"
+print("Version after changing base and epoch:", v)
+print("Base version:", v.base)
+print("Epoch:", v.epoch)
+
+v.pre = "b1"
+print("Pre-release version:", v)
+print("Base version remains unchanged:", v.base)
+
+#Output
+    #Initial version: 1.2.3
+    #Base version: 1.2.3
+    #Updated version: 2
+    #Base version: 2
+    #Version after changing base and epoch: 1!3.4
+    #Base version: 1!3.4
+    #Epoch: 1
+    #Pre-release version: 1!3.4b1
+    #Base version remains unchanged: 1!3.4
+
+            </code>
+									</pre> In this example, the base property is used to demonstrate its functionality and flexibility. Initially, the version is set to <code>"1.2.3"</code>. When the base property is updated to <code>"2.0"</code>, it shows the changes. Later, by assigning <code>"1!3.4"</code> to <code>
+                            <a href="#Version.base">base</a>
+                        </code>, both the epoch and the release version are modified, while the pre-release component remains unaffected. This showcases how the <code>
+                            <a href="#Version.base">base</a>
+                        </code> property effectively streamlines version management by focusing solely on the essential components of a version identifier.
+                    </section>
+                </div>
+                <div id="Version.data">
+                    <h4>
+                        <code>
+                            <b>data</b>
+                        </code>
+                    </h4>
+                    <section> The <code>data</code> property represents the entire instance. Its getter returns the instance converted into a string. Its setter interprets the given value as a version identifier and uses this to change every property of the instance accordingly.
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("42!1.2.3.dev1337+5.nov")
+print("Initial version:", v)
+print("Data property:", v.data)
+print("Type of data property:", type(v.data))
+
+v.data = 4.2
+print("Updated version:", v)
+print("Data property:", v.data)
+print("Type of data property:", type(v.data))
+
+v.data = 9001
+print("Updated version:", v)
+print("Data property:", v.data)
+print("Type of data property:", type(v.data))
+
+v.data = None
+print("Updated version:", v)
+print("Data property:", v.data)
+print("Type of data property:", type(v.data))
+
+v.data = "1701!4.5.6.rc255+reset"
+print("Updated version:", v)
+print("Data property:", v.data)
+print("Type of data property:", type(v.data))
+
+#Output
+    #Initial version: 42!1.2.3.dev1337+5.nov
+    #Data property: 42!1.2.3.dev1337+5.nov
+    #Type of data property: &lt;class 'str'&gt;
+    #Updated version: 4.2
+    #Data property: 4.2
+    #Type of data property: &lt;class 'str'&gt;
+    #Updated version: 9001
+    #Data property: 9001
+    #Type of data property: &lt;class 'str'&gt;
+    #Updated version: 0
+    #Data property: 0
+    #Type of data property: &lt;class 'str'&gt;
+    #Updated version: 1701!4.5.6rc255+reset
+    #Data property: 1701!4.5.6rc255+reset
+    #Type of data property: &lt;class 'str'&gt;
+                </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Version.dev">
+                    <h4>
+                        <code>
+                            <b>dev</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.dev">dev</a>
+                        </code> property in versioning signifies developmental releases, which are often created during a project's development cycle. These releases are useful for developers and packagers who want to test early versions of the software without interfering with stable releases. The devsegment consists of the string <code>".dev"</code> followed by a non-negative integer, which indicates the specific developmental release. Developmental releases are ordered numerically, appearing right before the corresponding stable release in version sorting. For example, if you have a version <code>"1.2.3"</code>, the developmental releases would be labeled <code>"1.2.3.dev1"</code>, <code>"1.2.3.dev2"</code>, etc. Additionally, developmental releases can also be used in conjunction with pre-releases and post-releases, such as <code>"1.2.3a.dev1"</code> for an alpha release or <code>"1.2.3.post1.dev1"</code> for a post-release. While developmental releases serve a purpose in testing and continuous integration, it's generally advised against publishing them publicly, especially for pre-releases, as they can complicate version interpretation. Instead, it's clearer to create a new pre-release by incrementing the numeric part of the version. In the provided example code, the <code>
+                            <a href="#Version.dev">dev</a>
+                        </code> property is shown to be highly tolerant, accepting various formats and types, including strings, lists, and booleans, while maintaining the integrity of the versioning system:
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("1.2.3")
+print(v, type(v.dev), v.dev)
+v.dev = 1
+print(v, type(v.dev), v.dev)
+v.dev = "42"
+print(v, type(v.dev), v.dev)
+v.dev = "dev1000"
+print(v, type(v.dev), v.dev)
+v.dev = "dev.2000"
+print(v, type(v.dev), v.dev)
+v.dev = ".dev.3000"
+print(v, type(v.dev), v.dev)
+v.dev = ".dev4000"
+print(v, type(v.dev), v.dev)
+v.dev = ("dev", "5000")
+print(v, type(v.dev), v.dev)
+v.dev = ["dev", "6000"]
+print(v, type(v.dev), v.dev)
+v.dev = "DEV7000"
+print(v, type(v.dev), v.dev)
+v.dev = "dEv8000"
+print(v, type(v.dev), v.dev)
+v.dev = ["dEV", "9000"]
+print(v, type(v.dev), v.dev)
+v.dev = False
+print(v, type(v.dev), v.dev)
+v.dev = True
+print(v, type(v.dev), v.dev)
+v.dev = None
+print(v, type(v.dev), v.dev)
+
+#Output:
+    #1.2.3 &lt;class 'NoneType'&gt; None
+    #1.2.3.dev1 &lt;class 'int'&gt; 1
+    #1.2.3.dev42 &lt;class 'int'&gt; 42
+    #1.2.3.dev1000 &lt;class 'int'&gt; 1000
+    #1.2.3.dev2000 &lt;class 'int'&gt; 2000
+    #1.2.3.dev3000 &lt;class 'int'&gt; 3000
+    #1.2.3.dev4000 &lt;class 'int'&gt; 4000
+    #1.2.3.dev5000 &lt;class 'int'&gt; 5000
+    #1.2.3.dev6000 &lt;class 'int'&gt; 6000
+    #1.2.3.dev7000 &lt;class 'int'&gt; 7000
+    #1.2.3.dev8000 &lt;class 'int'&gt; 8000
+    #1.2.3.dev9000 &lt;class 'int'&gt; 9000
+    #1.2.3.dev0 &lt;class 'int'&gt; 0
+    #1.2.3.dev1 &lt;class 'int'&gt; 1
+    #1.2.3 &lt;class 'NoneType'&gt; None
+    </code>
+									</pre> This example highlights the flexibility of the dev property in handling different input types while adhering to the requirements of the versioning system.
+                    </section>
+                </div>
+                <div id="Version.epoch">
+                    <h4>
+                        <code>
+                            <b>epoch</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.epoch">epoch</a>
+                        </code> property in versioning serves as a mechanism to manage version identifiers in situations where the conventional sorting rules might not suffice. It is particularly useful when a project transitions from one versioning scheme to another, ensuring that version comparisons yield the correct results. The epoch is represented as a nonnegative integer and is placed before the other version components, separated by an exclamation mark (e.g., E!X.Y). If a version identifier lacks an explicit epoch, it defaults to <code>0</code>. This is significant because it allows developers to redefine versioning strategies without conflicting with previous releases. For instance, if a project previously utilized date-based versioning and then shifts to semantic versioning, the epoch ensures that the new versions are recognized as more recent than the earlier versions. In the provided code example, the epoch property demonstrates its flexibility and tolerance in handling various types of inputs. The setter can accept strings, booleans, and even None, converting them to a valid integer or resetting the epoch to its default value.
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("1.2.3")
+v.epoch = 1
+print(v, type(v.epoch), v.epoch)
+v.epoch = "42"
+print(v, type(v.epoch), v.epoch)
+v.epoch = "9001!"
+print(v, type(v.epoch), v.epoch)
+v.epoch = False
+print(v, type(v.epoch), v.epoch)
+v.epoch = True
+print(v, type(v.epoch), v.epoch)
+v.epoch = None
+print(v, type(v.epoch), v.epoch)
+
+#Output:
+    #1!1.2.3 &lt;class 'int'&gt; 1
+    #42!1.2.3 &lt;class 'int'&gt; 42
+    #9001!1.2.3 &lt;class 'int'&gt; 9001
+    #1.2.3 &lt;class 'int'&gt; 0
+    #1!1.2.3 &lt;class 'int'&gt; 1
+    #1.2.3 &lt;class 'int'&gt; 0
+                        </code>
+									</pre> Overall, the epoch property is a vital feature for managing complex versioning schemes, helping maintain clarity and accuracy in version comparisons across different formats.
+                    </section>
+                </div>
+                <div id="Version.format">
+                    <h4>
+                        <code>
+                            <b>format(</b>
+                            <i>cutoff</i> = <i>None</i>
+                            <b>)</b> -> <i>str</i>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.format">format</a>
+                        </code> method returns a string representation of the instance in which <code>
+                            <a href="#Version.release">release</a>
+                        </code> is formatted with the given <code>cutoff</code>. See the <code>
+                            <a href="#Release.format">format</a>
+                        </code> method of <code>
+                            <a href="#Release">Release</a>
+                        </code> for more information.
+                        <pre>
+										<code>
+from v440 import Version
+
+version = Version("1.2.3rc42+my.local.patch")
+print(version)
+print(version.format())
+print(version.format("2"))
+print(version.format("4"))
+print(version.format("6"))
+print(version.format("-1"))
+
+#Output:
+    #1.2.3rc42+my.local.patch
+    #1.2.3rc42+my.local.patch
+    #1.2rc42+my.local.patch
+    #1.2.3.0rc42+my.local.patch
+    #1.2.3.0.0.0rc42+my.local.patch
+    #1.2rc42+my.local.patch
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Version.isdevrelease">
+                    <h4>
+                        <code>
+                            <b>isdevrelease()</b> -> <i>bool</i>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.isdevrelease">isdevrelease</a>
+                        </code> method returns a booloean value that tells whether the instance represents a devrelease or not.
+                        <pre>
+										<code>
+from v440 import Version
+
+# the following two functions are equivalent
+def f(version:Version) -> bool:
+    return version.isdevrelease()
+def g(version:Version) -> bool:
+    return version.dev is not None
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Version.isprerelease">
+                    <h4>
+                        <code>
+                            <b>isprerelease()</b> -> <i>bool</i>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.isprerelease">isprerelease</a>
+                        </code> method returns a booloean value that tells whether the instance represents a prerelease or not. Devreleases are also counted as prereleases, as they are by <code>
+                            <a href="https://packaging.pypa.io/">packaging</a>.version.Version </code>.
+                        <pre>
+										<code>
+from v440 import Version
+
+# the following two functions are equivalent
+def f(version:Version) -> bool:
+    return version.isprerelease()
+def g(version:Version) -> bool:
+    return version.isdevrelease() or not version.pre.isempty()
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Version.ispostrelease">
+                    <h4>
+                        <code>
+                            <b>ispostrelease()</b> -> <i>bool</i>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.ispostrelease">ispostrelease</a>
+                        </code> method returns a booloean value that tells whether the instance represents a postrelease or not.
+                        <pre>
+										<code>
+from v440 import Version
+
+# the following two functions are equivalent
+def f(version:Version) -> bool:
+    return version.ispostrelease()
+def g(version:Version) -> bool:
+    return version.post is not None
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Version.local">
+                    <h4>
+                        <code>
+                            <b>local</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#local">local</a>
+                        </code> property is designed to manage local version identifiers, which serve as extensions to the public version number. These identifiers enable developers and integrators to indicate that a version is a specific variation of an upstream release, often due to custom patches or modifications. Local version identifiers follow the syntax &lt;public version identifier&gt;[+&lt;local version label&gt;], where the local label is prefixed by a plus sign. Local version identifiers can include ASCII letters, digits, and periods, and they must start and end with an alphanumeric character. The primary purpose of local identifiers is to help differentiate between official (public) upstream releases and downstream adaptations, which may not contain the same code as the upstream version. The <code>
+                            <a href="#local">local</a>
+                        </code> property in the <code>
+                            <a href="/">v440</a>
+                        </code> project behaves like a specialized list, capable of being manipulated while preserving its integrity. It can interpret strings with periods as lists, allowing for operations typical of lists, such as appending, removing, and sorting elements. Here's an example illustrating how the <code>
+                            <a href="#local">local</a>
+                        </code> property works:
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("1.2.3")
+backup = v.local
+v.local = "local.1.2.3"
+print(v, v.local) 
+v.local.append("extra")
+print(v, v.local) 
+v.local.remove(1)
+print(v, v.local)  
+print(v.local[0]) 
+print(v.local[-1])
+v.local.sort()
+print(v, v.local) 
+v.local.clear()
+print(v, v.local)  
+v.local = "reset.1.2"
+print(v, v.local)  
+print(v.local is backup)
+
+#Output:
+    #1.2.3+local.1.2.3 local.1.2.3
+    #1.2.3+local.1.2.3.extra local.1.2.3.extra
+    #1.2.3+local.2.3.extra local.2.3.extra
+    #Version.local
+    #extra
+    #1.2.3+extra.local.2.3 extra.local.2.3
+    #1.2.3 
+    #1.2.3+reset.1.2 reset.1.2
+    #True
+        </code>
+									</pre> In this example, the <code>
+                            <a href="#local">local</a>
+                        </code> property is initialized with a string that gets interpreted as a list. Various list operations are demonstrated, showcasing its functionality while preserving the original versioning structure. The <code>
+                            <a href="#local">local</a>
+                        </code> property is versatile and maintains the versioning rules, allowing for clear differentiation between upstream releases and downstream modifications.
+                    </section>
+                </div>
+                <div id="Version.packaging">
+                    <h4>
+                        <code>
+                            <b>packaging()</b> -> <i>packaging.version.Version</i>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.packaging">packaging</a>
+                        </code> method converts the current instance into an (immutable) <code>
+                            <a href="https://packaging.pypa.io/">packaging</a>.version.Version </code> object.
+                        <pre>
+										<code>
+import packaging.version 
+import v440
+
+# the following two functions are equivalent
+def f(version:v440.Version) -> packaging.version.Version:
+    return version.packaging()
+def g(version:v440.Version) -> packaging.version.Version:
+    return packaging.version.Version(str(version))
+                        </code>
+									</pre>
+                    </section>
+                </div>
+                <div id="Version.post">
+                    <h4>
+                        <code>
+                            <b>post</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.post">post</a>
+                        </code> property in versioning is used to identify post-releases, which are minor updates made to final releases that do not introduce significant changes to the software itself. These updates may address issues such as errors in release notes or minor tweaks that don't affect functionality. The inclusion of a post-release segment in the version identifier is denoted as X.Y.postN, where N is a non-negative integer that represents the post-release number. Post-releases are sequenced to appear directly after their corresponding stable releases in the version hierarchy. This means if you have a version 1.2.3, the post-releases will be labeled as 1.2.3.post1, 1.2.3.post2, etc. It's important to note that while post-releases can also be applied to pre-releases and release candidates (like 1.2.3a.post1 for an alpha version), using post-releases for significant bug fixes is not recommended. Instead, developers are encouraged to increment the main version number to reflect more substantial updates. The following code example illustrates the flexibility of the post property in handling various input formats, allowing it to accept different types while maintaining the integrity of the versioning system:
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("1.2.3")
+print(v, type(v.post), v.post)
+v.post = 1
+print(v, type(v.post), v.post)
+v.post = "42"
+print(v, type(v.post), v.post)
+v.post = "post1000"
+print(v, type(v.post), v.post)
+v.post = "post.2000"
+print(v, type(v.post), v.post)
+v.post = ".post.3000"
+print(v, type(v.post), v.post)
+v.post = ".post4000"
+print(v, type(v.post), v.post)
+v.post = ("post", "5000")
+print(v, type(v.post), v.post)
+v.post = ["post", "6000"]
+print(v, type(v.post), v.post)
+v.post = "POST7000"
+print(v, type(v.post), v.post)
+v.post = "pOsT8000"
+print(v, type(v.post), v.post)
+v.post = ["poST", 9000]
+print(v, type(v.post), v.post)
+v.post = ["10000"]
+print(v, type(v.post), v.post)
+v.post = "REV11000"
+print(v, type(v.post), v.post)
+v.post = "rEv12000"
+print(v, type(v.post), v.post)
+v.post = "R13000"
+print(v, type(v.post), v.post)
+v.post = "r14000"
+print(v, type(v.post), v.post)
+v.post = ["post", None]
+print(v, type(v.post), v.post)
+v.post = False
+print(v, type(v.post), v.post)
+v.post = True
+print(v, type(v.post), v.post)
+v.post = None
+print(v, type(v.post), v.post)
+
+# Output:
+    # 1.2.3 &lt;class 'NoneType'&gt; None
+    # 1.2.3.post1 &lt;class 'int'&gt; 1
+    # 1.2.3.post42 &lt;class 'int'&gt; 42
+    # 1.2.3.post1000 &lt;class 'int'&gt; 1000
+    # 1.2.3.post2000 &lt;class 'int'&gt; 2000
+    # 1.2.3.post3000 &lt;class 'int'&gt; 3000
+    # 1.2.3.post4000 &lt;class 'int'&gt; 4000
+    # 1.2.3.post5000 &lt;class 'int'&gt; 5000
+    # 1.2.3.post6000 &lt;class 'int'&gt; 6000
+    # 1.2.3.post7000 &lt;class 'int'&gt; 7000
+    # 1.2.3.post8000 &lt;class 'int'&gt; 8000
+    # 1.2.3.post9000 &lt;class 'int'&gt; 9000
+    # 1.2.3.post10000 &lt;class 'int'&gt; 10000
+    # 1.2.3.post11000 &lt;class 'int'&gt; 11000
+    # 1.2.3.post12000 &lt;class 'int'&gt; 12000
+    # 1.2.3.post13000 &lt;class 'int'&gt; 13000
+    # 1.2.3.post14000 &lt;class 'int'&gt; 14000
+    # 1.2.3 &lt;class 'NoneType'&gt; None
+    # 1.2.3.post0 &lt;class 'int'&gt; 0
+    # 1.2.3.post1 &lt;class 'int'&gt; 1
+    # 1.2.3 &lt;class 'NoneType'&gt; None
+                            </code>
+									</pre> This example showcases how the <code>
+                            <a href="#Version.post">post</a>
+                        </code> property can accept various input formats, reinforcing the system's versatility while adhering to the requirements of versioning conventions.
+                    </section>
+                </div>
+                <div id="Version.pre">
+                    <h4>
+                        <code>
+                            <b>pre</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.pre">pre</a>
+                        </code> property is designed to handle prereleases, which allow developers to provide alpha, beta, or release candidate versions of their software for user testing prior to a final release. Pre-releases are indicated by a specific format in the version identifier, such as X.YaN for alpha releases, X.YbN for beta releases, and X.YrcN for release candidates. Its getter returns a <code>
+                            <a href="#Pre">Pre</a>
+                        </code> object whose modification will also modify the <code>
+                            <a href="#Version">Version</a>
+                        </code> instance. Its setter passes the value to the <code>
+                            <a href="#Pre.data">data</a>
+                        </code> property of the <code>
+                            <a href="#Pre">Pre</a>
+                        </code> object. Therefore the underlying <code>
+                            <a href="#Pre">Pre</a>
+                        </code> object of the <code>
+                            <a href="#Version">Version</a>
+                        </code> object can never actually be replaced. Once called through the getter it can always be used. Here's an example demonstrating how the pre property works:
+                        <pre>
+										<code>
+from v440 import Version
+
+v = Version("1.2.3")
+backup = v.pre
+print(v, v.pre) 
+v.pre = "a1"
+print(v, v.pre) 
+v.pre.phase = "preview"
+print(v, v.pre) 
+v.pre.subphase = "42"
+print(v, v.pre) 
+v.pre.phase = """
+    BeTa
+    
+    
+    """
+
+print(v, v.pre) 
+v.pre = None
+print(v, v.pre) 
+
+#Output:
+    #1.2.3 
+    #1.2.3a1 a1
+    #1.2.3rc1 rc1
+    #1.2.3rc42 rc42
+    #1.2.3b42 b42
+    #1.2.3
+
+    </code>
+									</pre> In this example, the pre property starts with a version initialized to <code>"1.2.3"</code> Various operations illustrate how the pre property can be manipulated, such as setting the phase and subphase of the pre-release. However, it's important to note that most operations on the pre property are subject to restrictions—attempting to change the length of the list or assign an incorrect value would raise a <code>
+                            <a href="#VersionError">VersionError</a>
+                        </code>. The implementation ensures that prereleases are clearly defined while preserving the flexibility needed for version management.
+                    </section>
+                </div>
+                <div id="Version.public">
+                    <h4>
+                        <code>
+                            <b>public</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.public">public</a>
+                        </code> property in the <code>
+                            <a href="/">v440</a>
+                        </code> versioning system is designed to provide a streamlined way to handle public versioning information. When accessing the <code>public</code> property, it returns another <code>
+                            <a href="#Version">Version</a>
+                        </code> object that has no local version information, but is otherwise identical to the original instance. </section>
+                </div>
+                <div id="Version.release">
+                    <h4>
+                        <code>
+                            <b>release</b>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.release">release</a>
+                        </code> property of <code>
+                            <a href="#Version">Version</a>
+                        </code> represents the release identifier of the version. Its getter returns a <code>
+                            <a href="#Release">Release</a>
+                        </code> object. Its setter passes the value to the <code>
+                            <a href="#Release.data">data</a>
+                        </code> property of the underlying <code>
+                            <a href="#Release">Release</a>
+                        </code> object. The object itself can only ever be altered but never be replaced. </section>
+                </div>
+                <div id="Version.update">
+                    <h4>
+                        <code>
+                            <b>update(</b>
+                            <i>**kwargs</i>
+                            <b>)</b> -> <i>None</i>
+                        </code>
+                    </h4>
+                    <section> The <code>
+                            <a href="#Version.update">update</a>
+                        </code> method updates the properties of the current instance using keyword arguments ( <code>kwargs</code>). Following the order of the keyword arguments the property of the name corresponding to the key is set to the corresponding value. </section>
+                </div>
+            </section>
+        </div>
+        <div id="VersionError">
+            <h2>The <code>VersionError</code> class </h2>
+            <p> A subclass of <code>
+                    <a href="http://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a>
+                </code> that is raised iff an improper value is passed to any property of a class in this project. </p>
+            <h4>
+                <code>
+                    <i>class</i> v440. <b>VersionError(</b>
+                    <i>*args</i>: <i>object</i>
+                    <b>)</b>
+                </code>
+            </h4>
+            <section> Create a new <code>
+                    <a href="#VersionError">VersionError</a>
+                </code> object. </section>
+        </div>
+        <footer>
+            <div class="navigation-links">
+                <a href="#top">Back to Top</a>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/intro.html">
+                            <p>&larr; Previous</p>
+                            <p>Introduction to <code>v440</code>
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/license.html">
+                            <p>Next &rarr;</p>
+                            <p>License of v440</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </footer>
+    </body>
+</html>
