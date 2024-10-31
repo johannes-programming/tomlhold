@@ -1,6 +1,6 @@
 import unittest
 
-from tomlhold.core import Holder 
+from tomlhold.core import Holder
 
 
 class TestHolder(unittest.TestCase):
