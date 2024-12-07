@@ -48,6 +48,21 @@
                 <h4 id="Holder.dump"><code><b>dump(</b><i>stream</i>: <i>Any</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
                 <section>
                     This method dumps the data of the current instance into a byte stream. 
+
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+import tomli_w
+
+stream = open("example.toml", "wb")
+
+def a(holder: Holder, **kwargs) -> None:
+    holder.dump(stream, **kwargs)
+
+def b(holder: Holder, **kwargs) -> None:
+    tomli_w.dump(holder.data, stream, **kwargs)
+    
+                        </code></pre>
                 </section>
                 <h4 id="Holder.dumpintofile"><code><b>dumpintofile(</b><i>file</i>: <i>str</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
                 <section>
