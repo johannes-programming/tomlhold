@@ -66,6 +66,20 @@
                 <section>
                     This method retrieves a value based on the provided key path.
                     If the keys do not exist, the default is saved in the data under the given keys and returned.
+                    The following two functions are equivalent.
+                    <pre><code>
+from tomlhold import Holder
+
+def a(holder: Holder):
+    return holder.setdefault("hello", "world", default=42)
+
+def b(holder: Holder):
+    try:
+        return holder["hello", "world"]
+    except KeyError:
+        holder["hello", "world"] = 42
+        return 42
+                        </code></pre>
                 </section>
                 <h4 id="Holder.load"><code><b>load(</b><i>stream</i>: <i>Any</i><b>)</b> -&gt; <i>Self</i></code></h4>
                 <section>
