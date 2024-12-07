@@ -1,4 +1,4 @@
-import functools
+
 import tomllib
 from datetime import date, datetime, time
 from typing import *
@@ -9,7 +9,7 @@ import tomli_w
 __all__ = ["Holder"]
 
 
-# getdict
+
 def getdict(d: dict, /) -> dict:
     ans = dict()
     for k in d.keys():
@@ -21,9 +21,6 @@ def getdict(d: dict, /) -> dict:
     return ans
 
 
-# getkey
-
-
 def getkey(key: int | str):
     if type(key) is int:
         return key
@@ -33,24 +30,14 @@ def getkey(key: int | str):
     msg %= type(key).__name__
     raise TypeError(msg)
 
-
-# getkeys
-
-
-@functools.singledispatch
-def getkeys(keys: Any, /) -> List[int | str]:
-    return [getkey(keys)]
+def getkeys(keys: Any, /) -> list[int | str]:
+    if isinstance(keys, tuple):
+        return [getkey(k) for k in keys]
+    else:
+        return [getkey(keys)]
 
 
-@getkeys.register
-def _(keys: tuple, /):
-    return [getkey(k) for k in keys]
 
-
-# getvalue
-
-
-@functools.singledispatch
 def getvalue(value: Any) -> Any:
     if isinstance(value, dict):
         return getdict(value)
@@ -67,7 +54,6 @@ def getvalue(value: Any) -> Any:
     raise TypeError(msg)
 
 
-# setdocstring
 
 
 def setdocstring(new: Any, /) -> Any:
@@ -170,6 +156,6 @@ class Holder(datahold.OkayDict):
     def setdefault(self, *keys, default: Any) -> Any:
         try:
             return self[keys]
-        except:
+        except KeyError:
             self[keys] = default
             return default

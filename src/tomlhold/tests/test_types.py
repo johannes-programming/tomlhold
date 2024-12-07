@@ -1,7 +1,7 @@
 import datetime
 import unittest
 
-from tomlhold.core import Holder  # Assuming Holder class is in holder.py
+from tomlhold.core import Holder 
 
 
 class TestHolderDataTypes(unittest.TestCase):
