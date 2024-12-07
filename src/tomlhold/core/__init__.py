@@ -43,10 +43,7 @@ def getvalue(value: Any) -> Any:
         return getdict(value)
     if isinstance(value, list):
         return [getvalue(v) for v in value]
-    for t in (bool, float, int, str):
-        if isinstance(value, t):
-            return t(value)
-    for t in (datetime, date, time):
+    for t in (bool, float, int, str, datetime, date, time):
         if type(value) is t:
             return value
     msg = "type %r is not allowed for values"
