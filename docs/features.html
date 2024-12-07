@@ -59,14 +59,23 @@
                 </section>
                 <h4 id="Holder.get"><code><b>get(</b><i>*keys</i>, <i>default</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
                 <section>
-                    This method retrieves a value based on the provided key path. 
-                    If the keys do not exist, the method returns the provided <code>default</code> value.
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+
+def a(holder: Holder):
+    return holder.get("hello", "world", default=42)
+
+def b(holder: Holder):
+    try:
+        return holder["hello", "world"]
+    except KeyError:
+        return 42
+                        </code></pre>
                 </section>
                 <h4 id="Holder.setdefault"><code><b>setdefault(</b><i>*keys</i>: <i>Any</i>, <i>default</i>: <i>Any</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
                 <section>
-                    This method retrieves a value based on the provided key path.
-                    If the keys do not exist, the default is saved in the data under the given keys and returned.
-                    The following two functions are equivalent.
+                    The following two functions are equivalent:
                     <pre><code>
 from tomlhold import Holder
 
