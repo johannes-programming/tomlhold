@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Features of tomlhold</title>
-        <link rel="stylesheet" href="https://www.johannes-programming.online/styles.css">
-    </head>
+    <head></head>
     <body id="top">
-        <header id="header">
-            <h1> Features of <code>
-                    <a href="https://v440.johannes-programming.online">tomlhold</a>
-                </code>
-            </h1>
-        </header>
         <div id="Holder">
             <h2>The <code>Holder</code> class </h2>
             <p>
                 <code><a href="#Holder">Holder</a></code> 
-                is a dict-like class specifically for handling toml.
-                It implements all operations and methods of <code>dict</code> 
-                with additional features for hierarchical data manipulation and TOML serialization.
+                is a subclass of <code><a href="https://datahold.johannes-programming.online">datahold</a>.OkayDict</code> 
+                specifically for handling <a href="https://toml.io/">TOML</a>.
+                All features that are overwritten are described below.
             </p>
             <h4>
                 <code>
@@ -45,57 +34,104 @@
                 <section>
                     This magic method alters a value at the location specified by a sequence of keys.
                 </section>
-                <h4 id="Holder.dump"><code><b>dump(</b><i>stream</i>: <i>Any</i>, <i>**kwargs</i>:<i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
+                <h4 id="Holder.dump"><code><b>dump(</b><i>stream</i>: <i>Any</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
                 <section>
                     This method dumps the data of the current instance into a byte stream. 
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+import tomli_w
+
+stream = open("example.toml", "wb")
+
+def a(holder: Holder, **kwargs) -&gt; None:
+    holder.dump(stream, **kwargs)
+
+def b(holder: Holder, **kwargs) -&gt; None:
+    tomli_w.dump(holder.data, stream, **kwargs)
+                        </code></pre>
                 </section>
-                <h4 id="Holder.dumpintofile"><code><b>dumpintofile(</b><i>file</i>: <i>str</i>, <i>**kwargs</i>:<i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
+                <h4 id="Holder.dumpintofile"><code><b>dumpintofile(</b><i>file</i>: <i>str</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
                 <section>
-                    This method dumps the data of the current instance into a file. 
+                    This method dumps the data of the current instance into a file.  
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+import tomli_w
+
+def a(holder: Holder, **kwargs) -&gt; str:
+    return holder.dump("example.toml", **kwargs)
+
+def b(holder: Holder, **kwargs) -&gt; str:
+    with open("example.toml", "wb") as stream:
+        tomli_w.dump(holder.data, stream, **kwargs)
+                        </code></pre>
                 </section>
                 <h4 id="Holder.dumps"><code><b>dumps(</b>**<i>kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>str</i></code></h4>
                 <section>
                     This method dumps the data of the current instance into a string. 
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+import tomli_w
+
+def a(holder: Holder, **kwargs) -&gt; str:
+    return holder.dumps(**kwargs)
+
+def b(holder: Holder, **kwargs) -&gt; str:
+    return tomli_w.dumps(holder.data, **kwargs)
+                        </code></pre>
                 </section>
                 <h4 id="Holder.get"><code><b>get(</b><i>*keys</i>, <i>default</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
                 <section>
-                    This method retrieves a value based on the provided key path. 
-                    If the keys do not exist, the method returns the provided <code>default</code> value.
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+
+def a(holder: Holder):
+    return holder.get("hello", "world", default=42)
+
+def b(holder: Holder):
+    try:
+        return holder["hello", "world"]
+    except KeyError:
+        return 42
+                        </code></pre>
                 </section>
                 <h4 id="Holder.setdefault"><code><b>setdefault(</b><i>*keys</i>: <i>Any</i>, <i>default</i>: <i>Any</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
                 <section>
-                    This method retrieves a value based on the provided key path.
-                    If the keys do not exist, the default is saved in the data under the given keys and returned.
+                    The following two functions are equivalent:
+                    <pre><code>
+from tomlhold import Holder
+
+def a(holder: Holder):
+    return holder.setdefault("hello", "world", default=42)
+
+def b(holder: Holder):
+    try:
+        return holder["hello", "world"]
+    except KeyError:
+        holder["hello", "world"] = 42
+        return 42
+                        </code></pre>
                 </section>
                 <h4 id="Holder.load"><code><b>load(</b><i>stream</i>: <i>Any</i><b>)</b> -&gt; <i>Self</i></code></h4>
                 <section>
-                    This classmethod loads data from a byte stream and create a new Holder instance from it.
+                    This classmethod loads data from a byte stream and create a new <code><a href="#Holder">Holder</a></code> instance from it.
                 </section>
                 <h4 id="Holder.loadfromfile"><code><b>loadfromfile(</b><i>file</i>: <i>str</i><b>)</b> -&gt; <i>Self</i></code></h4>
                 <section>
-                    This classmethod loads data from a file and create a new Holder instance from it.
+                    This classmethod loads data from a file and create a new <code><a href="#Holder">Holder</a></code> instance from it.
                 </section>
                 <h4 id="Holder.loads"><code><b>loads(</b><i>string</i>: <i>str</i><b>)</b> -&gt; <i>Self</i></code></h4>
                 <section>
-                    This classmethod loads data from a string and create a new Holder instance from it.
+                    This classmethod loads data from a string and create a new <code><a href="#Holder">Holder</a></code> instance from it.
                 </section>
             </section>
         </div>
-        <nav>
-            <ul>
-                <li>
-                    <a href="/intro.html">
-                        <p>&larr; Previous</p>
-                        <p>Introduction to <code>tomlhold</code></p>
-                    </a>
-                </li>
-                <li>
-                    <a href="/testing.html">
-                        <p>Next &rarr;</p>
-                        <p>Testing of <code>tomlhold</code></p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     </body>
+    <script src="https://www.johannes-programming.online/script.js"></script>
+    <script>
+        setupFeaturesPage("tomlhold");
+    </script>
 </html>
