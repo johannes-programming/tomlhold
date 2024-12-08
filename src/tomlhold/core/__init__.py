@@ -53,7 +53,7 @@ def getvalue(value: Any) -> Any:
 
 
 
-def identity(value:Any, /)->Any:
+def identity(value: Any, /)->Any:
     return value
 
 
@@ -153,10 +153,19 @@ class Holder(datahold.OkayDict):
         data = tomllib.loads(string)
         return cls(data, **kwargs)
 
+    @overloadable
     @setdocstring
-    def setdefault(self, *keys, default: Any) -> Any:
+    def setdefault(self, *args:Any, **kwargs:Any) -> Any:
+        return kwargs or not args
+    
+    @setdefault.overload(False)
+    def setdefault(self, *args:Any) -> Any:
         try:
-            return self[keys]
+            return self[args[:-1]]
         except KeyError:
-            self[keys] = default
-            return default
+            self[args[:-1]] = args[-1]
+            return args[-1]
+    
+    @setdefault.overload(True)
+    def setdefault(self, *keys:Any, default:Any=None) -> Any:
+        return type(self).setdefault.lookup[False](self, *keys, default)
