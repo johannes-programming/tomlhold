@@ -5,6 +5,7 @@ from typing import *
 
 import datahold
 import tomli_w
+from overloadable import overloadable
 
 __all__ = ["Holder"]
 
@@ -51,6 +52,9 @@ def getvalue(value: Any) -> Any:
     raise TypeError(msg)
 
 
+
+def identity(value:Any, /)->Any:
+    return value
 
 
 def setdocstring(new: Any, /) -> Any:
