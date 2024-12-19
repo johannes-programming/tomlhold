@@ -10,6 +10,13 @@ from overloadable import overloadable
 __all__ = ["Holder"]
 
 
+def _setdefault(holder, *keys: Any, default: Any=None) -> Any:
+    try:
+        return holder[keys]
+    except KeyError:
+        holder[keys] = default
+        return default
+    
 
 def getdict(d: dict, /) -> dict:
     ans = dict()
@@ -153,7 +160,15 @@ class Holder(datahold.OkayDict):
         data = tomllib.loads(string)
         return cls(data, **kwargs)
 
+    @overloadable
     @setdocstring
+    def setdefault(self, *args, **kwargs):
+        if kwargs:
+            return True
+        if len(args) > 1:
+            return True
+        return kwargs or not args
+    
     def setdefault(self, *keys, default: Any) -> Any:
         try:
             return self[keys]
