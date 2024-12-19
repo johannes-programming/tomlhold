@@ -18,7 +18,8 @@ classifiers = [
 ]
 dependencies = [
     "datahold>=1.0.1",
-    "tomli-w>=1.0.0",
+    "tomli-w>=1.0",
+    "overloadable>=1.0.6",
 ]
 description = "A holder for TOML data."
 keywords = []
