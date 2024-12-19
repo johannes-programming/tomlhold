@@ -60,8 +60,7 @@ def a(holder: Holder, **kwargs) -&gt; None:
 
 def b(holder: Holder, **kwargs) -&gt; None:
     tomli_w.dump(holder.data, stream, **kwargs)
-    
-</code></pre>
+                        </code></pre>
                 </section>
                 <h4 id="Holder.dumpintofile"><code><b>dumpintofile(</b><i>file</i>: <i>str</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
                 <section>
@@ -77,8 +76,7 @@ def a(holder: Holder, **kwargs) -&gt; str:
 def b(holder: Holder, **kwargs) -&gt; str:
     with open("example.toml", "wb") as stream:
         tomli_w.dump(holder.data, stream, **kwargs)
-    
-</code></pre>
+                        </code></pre>
                 </section>
                 <h4 id="Holder.dumps"><code><b>dumps(</b>**<i>kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>str</i></code></h4>
                 <section>
@@ -93,8 +91,7 @@ def a(holder: Holder, **kwargs) -&gt; str:
 
 def b(holder: Holder, **kwargs) -&gt; str:
     return tomli_w.dumps(holder.data, **kwargs)
-    
-</code></pre>
+                        </code></pre>
                 </section>
                 <h4 id="Holder.get"><code><b>get(</b><i>*keys</i>, <i>default</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
                 <section>
