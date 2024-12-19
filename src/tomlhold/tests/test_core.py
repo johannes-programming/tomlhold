@@ -109,6 +109,11 @@ class TestHolder(unittest.TestCase):
             list(self.holder.values()), list(self.initial_data.values())
         )
         self.assertListEqual(list(self.holder.items()), list(self.initial_data.items()))
+    
+    def test_int_key(self):
+        h = Holder()
+        with self.assertRaises(TypeError):
+            h.data = {4:2}
 
 
 if __name__ == "__main__":
