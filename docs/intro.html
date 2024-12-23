@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Installing tomlhold</title>
-        <link rel="stylesheet" href="https://www.johannes-programming.online/styles.css">
     </head>
     <body>
-        <header id="header">
-            <h1>Introduction to <code><a href="https://tomlhold.johannes-programming.online">tomlhold</a></code></h1>
-        </header>
         <div id="example">
             <h2>Example</h2>
             <p>Here's a simple example:</p>
 
-            <pre><code>
-import tomlhold
+<pre class="block"><code>import tomlhold
 
 # Example 1: Create Holder from a TOML string
 toml_data = """
@@ -70,27 +62,11 @@ for section, values in h.items():
     # Error: type &lt;class 'object'&gt; is not allowed for values
     # Holder({'title': 'Example', 'owner': {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}})
     # title Example
-    # owner {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'} 
-    
-</code></pre>
+    # owner {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'} </code></pre>
         </div>
-
-        <nav>
-            <ul>
-                <li>
-                    <a href="/install.html">
-                        <p>&larr; Previous</p>
-                        <p>Installing <code>tomlhold</code></p>
-                    </a>
-                </li>
-                <li>
-                    <a href="/features.html">
-                        <p>Next &rarr;</p>
-                        <p>Features of <code>tomlhold</code></p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
     </body>
+    <script src="https://www.johannes-programming.online/script.js"></script>
+    <script>
+        setupIntroPage("tomlhold");
+    </script>
 </html>
