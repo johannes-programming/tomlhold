@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head></head>
-    <body id="top">
-        <dl id="Holder" class="heading2">
-            <dt>The <code>Holder</code> class</dt>
+    <body>
+        <dl class="heading2">
+            <dt id="Holder">The <code>Holder</code> class</dt>
             <dd>
                 <p>
                     <code><a href="#Holder">Holder</a></code> 
@@ -12,7 +12,7 @@
                     All features that are overwritten are described below.
                 </p>
                 <dl class="heading4">
-                    <dt>
+                    <dt id="Holder.__new__">
                         <code>
                             <i>class</i> 
                             tomlhold.<b>Holder</b><em>(</em><i>data: Any = None</i><em>)</em>
@@ -24,8 +24,8 @@
                                 <a href="#Holder">Holder</a>
                             </code> object. 
                         </p>
-                        <dl id="Holder.__delitem__" class="heading4">
-                            <dt>
+                        <dl class="heading4">
+                            <dt id="Holder.__delitem__">
                                 <code>
                                     <b>__delitem__</b><em>(</em><i>keys: tuple | int | str</i><em>)</em> 
                                     <i>-&gt; None</i>
@@ -36,9 +36,7 @@
                                     This magic method deletes a value at the location specified by a sequence of keys.
                                 </p>
                             </dd>
-                        </dl>
-                        <dl id="Holder.__getitem__" class="heading4">
-                            <dt>
+                            <dt id="Holder.__getitem__">
                                 <code>
                                     <b>__getitem__</b><em>(</em><i>keys: tuple | int | str</i><em>)</em> 
                                     <i>-&gt; Any</i>
@@ -49,9 +47,7 @@
                                     This magic method returns a value at the location specified by a sequence of keys.
                                 </p>
                             </dd>
-                        </dl>
-                        <dl id="Holder.__setitem__" class="heading4">
-                            <dt>
+                            <dt id="Holder.__setitem__">
                                 <code>
                                     <b>__setitem__</b><em>(</em><i>keys: tuple | int | str</i>, 
                                     <i>value: Any</i><em>)</em> 
@@ -63,9 +59,7 @@
                                     This magic method alters a value at the location specified by a sequence of keys.
                                 </p>
                             </dd>
-                        </dl>
-                        <dl id="Holder.dump" class="heading4">
-                            <dt>
+                            <dt id="Holder.dump">
                                 <code>
                                     <b>dump</b><em>(</em><i>stream: Any</i>, 
                                     <i>**kwargs: Any</i><em>)</em> 
@@ -76,7 +70,7 @@
                                 <p>
                                     This method dumps the data of the current instance into a byte stream. 
                                     The following two functions are equivalent:
-                                <p>
+                                </p>
 <pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
@@ -88,9 +82,7 @@ def a(holder: Holder, **kwargs) -&gt; None:
 def b(holder: Holder, **kwargs) -&gt; None:
     tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
                             </dd>
-                        </dl>
-                        <dl id="Holder.dumpintofile" class="heading4">
-                            <dt>
+                            <dt id="Holder.dumpintofile">
                                 <code>
                                     <b>dumpintofile</b><em>(</em><i>file: str, **kwargs: Any</i><em>)</em> 
                                     <i>-&gt; None</i>
@@ -111,9 +103,7 @@ def b(holder: Holder, **kwargs) -&gt; str:
     with open("example.toml", "wb") as stream:
         tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
                             </dd>
-                        </dl>
-                        <dl id="Holder.dumps" class="heading4">
-                            <dt>
+                            <dt id="Holder.dumps">
                                 <code>
                                     <b>dumps</b><em>(</em><i>**kwargs: Any</i><em>)</em> 
                                     <i>-&gt; str</i>
@@ -133,9 +123,7 @@ def a(holder: Holder, **kwargs) -&gt; str:
 def b(holder: Holder, **kwargs) -&gt; str:
     return tomli_w.dumps(holder.data, **kwargs)</code></pre>
                             </dd>
-                        </dl>
-                        <dl id="Holder.get" class="heading4">
-                            <dt>
+                            <dt id="Holder.get">
                                 <code>
                                     <b>get</b><em>(</em><i>*keys</i>, 
                                     <i>default = None</i><em>)</em> 
@@ -155,32 +143,7 @@ def b(holder: Holder):
     except KeyError:
         return 42</code></pre>
                             </dd>
-                        </dl>
-                        <dl id="Holder.setdefault" class="heading4">
-                            <dt>
-                                <code>
-                                    <b>setdefault</b><em>(</em><i>*keys: Any</i>, 
-                                    <i>default: Any = None</i><em>)</em> 
-                                    <i>-&gt; Any</i>
-                                </code>
-                            </dt>
-                            <dd>
-                                <p>The following two functions are equivalent:</p>
-<pre><code>from tomlhold import Holder
-
-def a(holder: Holder):
-    return holder.setdefault("hello", "world", default=42)
-
-def b(holder: Holder):
-    try:
-        return holder["hello", "world"]
-    except KeyError:
-        holder["hello", "world"] = 42
-        return 42</code></pre>
-                            </dd>
-                        </dl>
-                        <dl id="Holder.load" class="heading4">
-                            <dt>
+                            <dt id="Holder.load">
                                 <code>
                                     <b>load</b><em>(</em><i>stream: Any</i><em>)</em> 
                                     <i>-&gt; Self</i>
@@ -191,9 +154,7 @@ def b(holder: Holder):
                                     This classmethod loads data from a byte stream and create a new <code><a href="#Holder">Holder</a></code> instance from it.
                                 </p>
                             </dd>
-                        </dl>
-                        <dl id="Holder.loadfromfile" class="heading4">
-                            <dt>
+                            <dt id="Holder.loadfromfile">
                                 <code>
                                     <b>loadfromfile</b><em>(</em><i>file: str</i><em>)</em> 
                                     <i>-&gt; Self</i>
@@ -204,9 +165,7 @@ def b(holder: Holder):
                                     This classmethod loads data from a file and create a new <code><a href="#Holder">Holder</a></code> instance from it.
                                 </p>
                             </dd>
-                        </dl>
-                        <dl id="Holder.loads" class="heading4">
-                            <dt>
+                            <dt id="Holder.loads">
                                 <code>
                                     <b>loads</b><em>(</em><i>string: str</i><em>)</em> 
                                     <i>-&gt; Self</i>
@@ -216,6 +175,27 @@ def b(holder: Holder):
                                 <p>
                                     This classmethod loads data from a string and create a new <code><a href="#Holder">Holder</a></code> instance from it.
                                 </p>
+                            </dd>
+                            <dt id="Holder.setdefault">
+                                <code>
+                                    <b>setdefault</b><em>(</em><i>*keys: Any</i>, 
+                                    <i>default: Any = None</i><em>)</em> 
+                                    <i>-&gt; Any</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>The following two functions are equivalent:</p>
+<pre class="block"><code>from tomlhold import Holder
+
+def a(holder: Holder):
+    return holder.setdefault("hello", "world", default=42)
+
+def b(holder: Holder):
+    try:
+        return holder["hello", "world"]
+    except KeyError:
+        holder["hello", "world"] = 42
+        return 42</code></pre>
                             </dd>
                         </dl>
                     </dd>
