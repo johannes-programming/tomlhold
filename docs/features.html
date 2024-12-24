@@ -2,44 +2,82 @@
 <html lang="en">
     <head></head>
     <body id="top">
-        <div id="Holder">
-            <h2>The <code>Holder</code> class </h2>
-            <p>
-                <code><a href="#Holder">Holder</a></code> 
-                is a subclass of <code><a href="https://datahold.johannes-programming.online">datahold</a>.OkayDict</code> 
-                specifically for handling <a href="https://toml.io/">TOML</a>.
-                All features that are overwritten are described below.
-            </p>
-            <h4>
-                <code>
-                    <i>class</i> 
-                    tomlhold.<b>Holder(</b><i>data</i>:
-                    <i>Any</i> = <i>None</i><b>)</b>
-                </code>
-            </h4>
-            <section>
-                <p> Create a new <code>
-                        <a href="#Holder">Holder</a>
-                    </code> object. 
+        <dl id="Holder" class="heading2">
+            <dt>The <code>Holder</code> class</dt>
+            <dd>
+                <p>
+                    <code><a href="#Holder">Holder</a></code> 
+                    is a subclass of <code><a href="https://datahold.johannes-programming.online">datahold</a>.OkayDict</code> 
+                    specifically for handling <a href="https://toml.io/">TOML</a>.
+                    All features that are overwritten are described below.
                 </p>
-                <h4 id="Holder.__delitem__"><code><b>__delitem__(</b><i>keys</i>: <i>tuple</i> | <i>int</i> | <i>str</i><b>)</b> -&gt; <i>None</i></code></h4>
-                <section>
-                    This magic method deletes a value at the location specified by a sequence of keys.
-                </section>
-                <h4 id="Holder.__getitem__"><code><b>__getitem__(</b><i>keys</i>: <i>tuple</i> | <i>int</i> | <i>str</i><b>)</b> -&gt; <i>Any</i></code></h4>
-                <section>
-                    This magic method returns a value at the location specified by a sequence of keys.
-                </section>
-                <h4 id="Holder.__setitem__"><code><b>__setitem__(</b><i>keys</i>: <i>tuple</i> | <i>int</i> | <i>str</i>, <i>value</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
-                <section>
-                    This magic method alters a value at the location specified by a sequence of keys.
-                </section>
-                <h4 id="Holder.dump"><code><b>dump(</b><i>stream</i>: <i>Any</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
-                <section>
-                    This method dumps the data of the current instance into a byte stream. 
-                    The following two functions are equivalent:
-                    <pre><code>
-from tomlhold import Holder
+                <dl class="heading4">
+                    <dt>
+                        <code>
+                            <i>class</i> 
+                            tomlhold.<b>Holder</b><em>(</em><i>data: Any = None</i><em>)</em>
+                        </code>
+                    </dt>
+                    <dd>
+                        <p> 
+                            Create a new <code>
+                                <a href="#Holder">Holder</a>
+                            </code> object. 
+                        </p>
+                        <dl id="Holder.__delitem__" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>__delitem__</b><em>(</em><i>keys: tuple | int | str</i><em>)</em> 
+                                    <i>-&gt; None</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This magic method deletes a value at the location specified by a sequence of keys.
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.__getitem__" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>__getitem__</b><em>(</em><i>keys: tuple | int | str</i><em>)</em> 
+                                    <i>-&gt; Any</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This magic method returns a value at the location specified by a sequence of keys.
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.__setitem__" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>__setitem__</b><em>(</em><i>keys: tuple | int | str</i>, 
+                                    <i>value: Any</i><em>)</em> 
+                                    <i>-&gt; None</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This magic method alters a value at the location specified by a sequence of keys.
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.dump" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>dump</b><em>(</em><i>stream: Any</i>, 
+                                    <i>**kwargs: Any</i><em>)</em> 
+                                    <i>-&gt; None</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This method dumps the data of the current instance into a byte stream. 
+                                    The following two functions are equivalent:
+                                <p>
+<pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
 stream = open("example.toml", "wb")
@@ -48,15 +86,22 @@ def a(holder: Holder, **kwargs) -&gt; None:
     holder.dump(stream, **kwargs)
 
 def b(holder: Holder, **kwargs) -&gt; None:
-    tomli_w.dump(holder.data, stream, **kwargs)
-                        </code></pre>
-                </section>
-                <h4 id="Holder.dumpintofile"><code><b>dumpintofile(</b><i>file</i>: <i>str</i>, <i>**kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>None</i></code></h4>
-                <section>
-                    This method dumps the data of the current instance into a file.  
-                    The following two functions are equivalent:
-                    <pre><code>
-from tomlhold import Holder
+    tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.dumpintofile" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>dumpintofile</b><em>(</em><i>file: str, **kwargs: Any</i><em>)</em> 
+                                    <i>-&gt; None</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This method dumps the data of the current instance into a file.  
+                                    The following two functions are equivalent:
+                                </p>
+<pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
 def a(holder: Holder, **kwargs) -&gt; str:
@@ -64,29 +109,42 @@ def a(holder: Holder, **kwargs) -&gt; str:
 
 def b(holder: Holder, **kwargs) -&gt; str:
     with open("example.toml", "wb") as stream:
-        tomli_w.dump(holder.data, stream, **kwargs)
-                        </code></pre>
-                </section>
-                <h4 id="Holder.dumps"><code><b>dumps(</b>**<i>kwargs</i>: <i>Any</i><b>)</b> -&gt; <i>str</i></code></h4>
-                <section>
-                    This method dumps the data of the current instance into a string. 
-                    The following two functions are equivalent:
-                    <pre><code>
-from tomlhold import Holder
+        tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.dumps" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>dumps</b><em>(</em><i>**kwargs: Any</i><em>)</em> 
+                                    <i>-&gt; str</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This method dumps the data of the current instance into a string. 
+                                    The following two functions are equivalent:
+                                </p>
+<pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
 def a(holder: Holder, **kwargs) -&gt; str:
     return holder.dumps(**kwargs)
 
 def b(holder: Holder, **kwargs) -&gt; str:
-    return tomli_w.dumps(holder.data, **kwargs)
-                        </code></pre>
-                </section>
-                <h4 id="Holder.get"><code><b>get(</b><i>*keys</i>, <i>default</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
-                <section>
-                    The following two functions are equivalent:
-                    <pre><code>
-from tomlhold import Holder
+    return tomli_w.dumps(holder.data, **kwargs)</code></pre>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.get" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>get</b><em>(</em><i>*keys</i>, 
+                                    <i>default = None</i><em>)</em> 
+                                    <i>-&gt; Any</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>The following two functions are equivalent:</p>
+<pre class="block"><code>from tomlhold import Holder
 
 def a(holder: Holder):
     return holder.get("hello", "world", default=42)
@@ -95,14 +153,20 @@ def b(holder: Holder):
     try:
         return holder["hello", "world"]
     except KeyError:
-        return 42
-                        </code></pre>
-                </section>
-                <h4 id="Holder.setdefault"><code><b>setdefault(</b><i>*keys</i>: <i>Any</i>, <i>default</i>: <i>Any</i> = <i>None</i><b>)</b> -&gt; <i>Any</i></code></h4>
-                <section>
-                    The following two functions are equivalent:
-                    <pre><code>
-from tomlhold import Holder
+        return 42</code></pre>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.setdefault" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>setdefault</b><em>(</em><i>*keys: Any</i>, 
+                                    <i>default: Any = None</i><em>)</em> 
+                                    <i>-&gt; Any</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>The following two functions are equivalent:</p>
+<pre><code>from tomlhold import Holder
 
 def a(holder: Holder):
     return holder.setdefault("hello", "world", default=42)
@@ -112,23 +176,52 @@ def b(holder: Holder):
         return holder["hello", "world"]
     except KeyError:
         holder["hello", "world"] = 42
-        return 42
-                        </code></pre>
-                </section>
-                <h4 id="Holder.load"><code><b>load(</b><i>stream</i>: <i>Any</i><b>)</b> -&gt; <i>Self</i></code></h4>
-                <section>
-                    This classmethod loads data from a byte stream and create a new <code><a href="#Holder">Holder</a></code> instance from it.
-                </section>
-                <h4 id="Holder.loadfromfile"><code><b>loadfromfile(</b><i>file</i>: <i>str</i><b>)</b> -&gt; <i>Self</i></code></h4>
-                <section>
-                    This classmethod loads data from a file and create a new <code><a href="#Holder">Holder</a></code> instance from it.
-                </section>
-                <h4 id="Holder.loads"><code><b>loads(</b><i>string</i>: <i>str</i><b>)</b> -&gt; <i>Self</i></code></h4>
-                <section>
-                    This classmethod loads data from a string and create a new <code><a href="#Holder">Holder</a></code> instance from it.
-                </section>
-            </section>
-        </div>
+        return 42</code></pre>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.load" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>load</b><em>(</em><i>stream: Any</i><em>)</em> 
+                                    <i>-&gt; Self</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This classmethod loads data from a byte stream and create a new <code><a href="#Holder">Holder</a></code> instance from it.
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.loadfromfile" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>loadfromfile</b><em>(</em><i>file: str</i><em>)</em> 
+                                    <i>-&gt; Self</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This classmethod loads data from a file and create a new <code><a href="#Holder">Holder</a></code> instance from it.
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl id="Holder.loads" class="heading4">
+                            <dt>
+                                <code>
+                                    <b>loads</b><em>(</em><i>string: str</i><em>)</em> 
+                                    <i>-&gt; Self</i>
+                                </code>
+                            </dt>
+                            <dd>
+                                <p>
+                                    This classmethod loads data from a string and create a new <code><a href="#Holder">Holder</a></code> instance from it.
+                                </p>
+                            </dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </dd>
+        </dl>
     </body>
     <script src="https://www.johannes-programming.online/script.js"></script>
     <script>
