@@ -96,10 +96,10 @@ def b(holder: Holder, **kwargs) -&gt; None:
 <pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
-def a(holder: Holder, **kwargs) -&gt; str:
-    return holder.dump("example.toml", **kwargs)
+def a(holder: Holder, **kwargs) -&gt; None:
+    return holder.dumpintofile("example.toml", **kwargs)
 
-def b(holder: Holder, **kwargs) -&gt; str:
+def b(holder: Holder, **kwargs) -&gt; None:
     with open("example.toml", "wb") as stream:
         tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
                             </dd>
