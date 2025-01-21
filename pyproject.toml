@@ -17,6 +17,7 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
 ]
 dependencies = [
     "datahold>=1.0.1",
@@ -27,7 +28,7 @@ keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.2+local.2"
+version = "1.0.2+local.3"
 
 [project.license]
 file = "LICENSE.txt"
