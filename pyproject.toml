@@ -23,12 +23,12 @@ dependencies = [
     "datahold>=1.0.1",
     "tomli-w>=1.0.0",
 ]
-description = "A holder for TOML data."
+description = "This project provides holders for TOML data."
 keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.2+local.6"
+version = "1.0.2+local.7"
 
 [project.license]
 file = "LICENSE.txt"
