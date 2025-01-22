@@ -28,7 +28,7 @@ keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.2+local.4"
+version = "1.0.2+local.5"
 
 [project.license]
 file = "LICENSE.txt"

@@ -24,7 +24,7 @@ def getdict(d: dict, /) -> dict:
 # getkey
 
 
-def getkey(key: int | str):
+def getkey(key: int | str) -> int | str:
     if type(key) is int:
         return key
     if type(key) is str:
