@@ -37,20 +37,16 @@ def getkey(key: int | str):
 # getkeys
 
 
-@functools.singledispatch
 def getkeys(keys: Any, /) -> List[int | str]:
-    return [getkey(keys)]
-
-
-@getkeys.register
-def _(keys: tuple, /):
-    return [getkey(k) for k in keys]
+    if isinstance(keys, tuple):
+        return [getkey(k) for k in keys]
+    else:
+        return [getkey(keys)]
 
 
 # getvalue
 
 
-@functools.singledispatch
 def getvalue(value: Any) -> Any:
     if isinstance(value, dict):
         return getdict(value)
