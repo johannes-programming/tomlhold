@@ -1,4 +1,3 @@
-import functools
 import tomllib
 from datetime import date, datetime, time
 from typing import *
@@ -12,7 +11,9 @@ __all__ = ["Holder"]
 # getdict
 def getdict(d: dict, /) -> dict:
     "This function returns a TOML dict."
-    ans = dict()
+    ans :dict= dict()
+    k:Any
+    msg:str
     for k in d.keys():
         if type(k) is not str:
             msg = "type %r is not allowed for keys of dictionaries"
@@ -31,7 +32,7 @@ def getkey(key: int | str) -> int | str:
         return key
     if type(key) is str:
         return key
-    msg = "type %r is not allowed for keys"
+    msg:str = "type %r is not allowed for keys"
     msg %= type(key).__name__
     raise TypeError(msg)
 
@@ -39,10 +40,10 @@ def getkey(key: int | str) -> int | str:
 # getkeys
 
 
-def getkeys(keys: Any, /) -> List[int | str]:
+def getkeys(keys: Any, /) -> list[int | str]:
     "This function returns TOML keys."
     if isinstance(keys, tuple):
-        return [getkey(k) for k in keys]
+        return list(map(getkey, keys))
     else:
         return [getkey(keys)]
 
@@ -72,15 +73,15 @@ def getvalue(value: Any, /) -> Any:
 
 def setdocstring(new: Any, /) -> Any:
     "This decorator sets the doc string."
-    name = new.__name__
-    old = getattr(datahold.OkayDict, name)
+    name:Any = new.__name__
+    old :Any= getattr(datahold.OkayDict, name)
     new.__doc__ = old.__doc__
     return new
 
 
 class Holder(datahold.OkayDict):
     @setdocstring
-    def __delitem__(self, keys: tuple | int | str) -> None:
+    def __delitem__(self:Self, keys: tuple | int | str) -> None:
         keys = getkeys(keys)
         if keys == []:
             self.clear()
@@ -92,22 +93,25 @@ class Holder(datahold.OkayDict):
         del ans[lastkey]
 
     @setdocstring
-    def __getitem__(self, keys: tuple | int | str) -> Any:
-        keys = getkeys(keys)
-        ans = self._data
-        for k in keys:
-            ans = ans[k]
+    def __getitem__(self:Self, keys: tuple | int | str) -> Any:
+        keys:list = getkeys(keys)
+        ans:Any = self._data
+        key:Any
+        for key in keys:
+            ans = ans[key]
         ans = getvalue(ans)
         return ans
 
     @setdocstring
-    def __setitem__(self, keys: tuple | int | str, value: Any) -> None:
-        keys = getkeys(keys)
+    def __setitem__(self:Self, keys: tuple | int | str, value: Any) -> None:
+        keys:list = getkeys(keys)
         if keys == []:
             self.data = value
             return
-        lastkey = keys.pop(-1)
-        target = data = self.data
+        lastkey:Any = keys.pop(-1)
+        data:Any = self.data
+        target:Any = data
+        k:Any
         for k in keys:
             if isinstance(target, dict):
                 target = target.setdefault(k, {})
@@ -118,59 +122,63 @@ class Holder(datahold.OkayDict):
 
     @property
     @setdocstring
-    def data(self) -> dict[str, Any]:
+    def data(self:Self) -> dict[str, Any]:
         return getdict(dict(self._data))
 
     @data.setter
-    def data(self, value: Any) -> None:
+    def data(self:Self, value: Any) -> None:
         self._data = getdict(dict(value))
 
     @data.deleter
-    def data(self) -> None:
+    def data(self:Self) -> None:
         self.clear()
 
-    def dump(self, stream: Any, **kwargs: Any) -> None:
+    def dump(self:Self, stream: Any, **kwargs: Any) -> None:
         "This method dumps the data into a byte stream."
         tomli_w.dump(self.data, stream, **kwargs)
 
-    def dumpintofile(self, file: str, **kwargs: Any) -> None:
+    def dumpintofile(self:Self, file: str, **kwargs: Any) -> None:
         "This method dumps the data into a file."
         with open(file, "wb") as stream:
             self.dump(stream, **kwargs)
 
-    def dumps(self, **kwargs: Any) -> str:
+    def dumps(self:Self, **kwargs: Any) -> str:
         "This method dumps the data as a string."
         return tomli_w.dumps(self.data, **kwargs)
 
     @setdocstring
-    def get(self, *keys: int | str, default: Any = None) -> Any:
+    def get(self:Self, *keys: int | str, default: Any = None) -> Any:
         try:
             return self[keys]
         except KeyError:
             return default
 
     @classmethod
-    def load(cls, stream: Any, **kwargs: Any) -> Self:
+    def load(cls:type, stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
-        data = tomllib.load(stream, **kwargs)
-        return cls(data)
+        data :dict= tomllib.load(stream, **kwargs)
+        ans:Self= cls(data)
+        return ans
 
     @classmethod
-    def loadfromfile(cls, file: str, **kwargs: Any) -> Self:
+    def loadfromfile(cls:type, file: str, **kwargs: Any) -> Self:
         "This classmethod loads data from file."
         with open(file, "rb") as stream:
             return cls.load(stream, **kwargs)
 
     @classmethod
-    def loads(cls, string: str, **kwargs: Any) -> Self:
+    def loads(cls:type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
-        data = tomllib.loads(string)
-        return cls(data, **kwargs)
+        data :dict= tomllib.loads(string)
+        ans:Self= cls(data, **kwargs)
+        return ans
 
     @setdocstring
-    def setdefault(self, *keys: int | str, default: Any) -> Any:
+    def setdefault(self:Self, *keys: int | str, default: Any) -> Any:
+        ans:Any
         try:
-            return self[keys]
+            ans = self[keys]
         except:
             self[keys] = default
-            return default
+            ans = self[keys]
+        return ans
