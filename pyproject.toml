@@ -1,12 +1,12 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=61.0.0",
+    "setuptools>=61.0",
 ]
 
 [project]
 authors = [
-    { email = "johannes-programming@mailfence.com", name = "Johannes" },
+    { email = "johannes.programming@gmail.com", name = "Johannes" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -20,15 +20,15 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "datahold>=1.0.1",
-    "tomli-w>=1.0.0",
+    "datahold>=1.1.10,<2",
+    "tomli-w>=1.2.0,<2",
 ]
 description = "This project provides holders for TOML data."
 keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.2+local.8"
+version = "1.0.2+local.9"
 
 [project.license]
 file = "LICENSE.txt"
