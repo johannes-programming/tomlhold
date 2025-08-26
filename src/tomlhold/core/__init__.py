@@ -11,6 +11,7 @@ __all__ = ["Holder"]
 
 # getdict
 def getdict(d: dict, /) -> dict:
+    "This function returns a TOML dict."
     ans = dict()
     for k in d.keys():
         if type(k) is not str:
@@ -24,7 +25,8 @@ def getdict(d: dict, /) -> dict:
 # getkey
 
 
-def getkey(key: int | str):
+def getkey(key: int | str) -> int | str:
+    "This function returns a TOML key."
     if type(key) is int:
         return key
     if type(key) is str:
@@ -37,21 +39,19 @@ def getkey(key: int | str):
 # getkeys
 
 
-@functools.singledispatch
 def getkeys(keys: Any, /) -> List[int | str]:
-    return [getkey(keys)]
-
-
-@getkeys.register
-def _(keys: tuple, /):
-    return [getkey(k) for k in keys]
+    "This function returns TOML keys."
+    if isinstance(keys, tuple):
+        return [getkey(k) for k in keys]
+    else:
+        return [getkey(keys)]
 
 
 # getvalue
 
 
-@functools.singledispatch
-def getvalue(value: Any) -> Any:
+def getvalue(value: Any, /) -> Any:
+    "This function returns a TOML value."
     if isinstance(value, dict):
         return getdict(value)
     if isinstance(value, list):
@@ -71,6 +71,7 @@ def getvalue(value: Any) -> Any:
 
 
 def setdocstring(new: Any, /) -> Any:
+    "This decorator sets the doc string."
     name = new.__name__
     old = getattr(datahold.OkayDict, name)
     new.__doc__ = old.__doc__
@@ -118,27 +119,27 @@ class Holder(datahold.OkayDict):
     @property
     @setdocstring
     def data(self) -> dict[str, Any]:
-        return getvalue(dict(self._data))
+        return getdict(dict(self._data))
 
     @data.setter
     def data(self, value: Any) -> None:
-        self._data = getvalue(dict(value))
+        self._data = getdict(dict(value))
 
     @data.deleter
     def data(self) -> None:
         self.clear()
 
     def dump(self, stream: Any, **kwargs: Any) -> None:
-        "Dump into byte stream."
+        "This method dumps the data into a byte stream."
         tomli_w.dump(self.data, stream, **kwargs)
 
     def dumpintofile(self, file: str, **kwargs: Any) -> None:
-        "Dump into file."
+        "This method dumps the data into a file."
         with open(file, "wb") as stream:
             self.dump(stream, **kwargs)
 
     def dumps(self, **kwargs: Any) -> str:
-        "Dump as string."
+        "This method dumps the data as a string."
         return tomli_w.dumps(self.data, **kwargs)
 
     @setdocstring
@@ -150,24 +151,24 @@ class Holder(datahold.OkayDict):
 
     @classmethod
     def load(cls, stream: Any, **kwargs: Any) -> Self:
-        "Load from byte stream."
+        "This classmethod loads data from byte stream."
         data = tomllib.load(stream, **kwargs)
         return cls(data)
 
     @classmethod
     def loadfromfile(cls, file: str, **kwargs: Any) -> Self:
-        "Load from file."
+        "This classmethod loads data from file."
         with open(file, "rb") as stream:
             return cls.load(stream, **kwargs)
 
     @classmethod
     def loads(cls, string: str, **kwargs: Any) -> Self:
-        "Load from string."
+        "This classmethod loads data from string."
         data = tomllib.loads(string)
         return cls(data, **kwargs)
 
     @setdocstring
-    def setdefault(self, *keys, default: Any) -> Any:
+    def setdefault(self, *keys: int | str, default: Any) -> Any:
         try:
             return self[keys]
         except:

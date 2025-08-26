@@ -1,36 +1,40 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=61.0.0",
+    "setuptools>=61.0",
 ]
 
 [project]
 authors = [
-    { email = "johannes-programming@mailfence.com", name = "Johannes" },
+    { email = "johannes.programming@gmail.com", name = "Johannes" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
 ]
 dependencies = [
-    "datahold>=1.0.1",
-    "tomli-w>=1.0.0",
+    "datahold>=1.1.10,<2",
+    "tomli-w>=1.0,<2",
 ]
-description = "A holder for TOML data."
+description = "This project provides holders for TOML data."
 keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.2"
+version = "1.0.2+local.9"
 
 [project.license]
 file = "LICENSE.txt"
 
 [project.urls]
-Documentation = "https://pypi.org/project/tomlhold"
 Download = "https://pypi.org/project/tomlhold/#files"
-Source = "https://github.com/johannes-programming/tomlhold"
+Index = "https://pypi.org/project/tomlhold/"
+Source = "https://github.com/johannes-programming/tomlhold/"
+Website = "https://tomlhold.johannes-programming.online/"
