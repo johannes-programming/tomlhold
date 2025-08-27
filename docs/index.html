@@ -124,7 +124,7 @@ for section, values in h.items():
                                             This method dumps the data of the current instance into a byte stream. 
                                             The following two functions are equivalent:
                                         </p>
-<pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
 stream = open("example.toml", "wb")
@@ -162,7 +162,7 @@ def b(holder: Holder, **kwargs) -&gt; None:
                                             This method dumps the data of the current instance into a string. 
                                             The following two functions are equivalent:
                                         </p>
-<pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import Holder
 import tomli_w
 
 def a(holder: Holder, **kwargs) -&gt; str:
@@ -177,7 +177,7 @@ def b(holder: Holder, **kwargs) -&gt; str:
                                     </dt>
                                     <dd>
                                         <p>The following two functions are equivalent:</p>
-<pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import Holder
 
 def a(holder: Holder):
     return holder.get("hello", "world", default=42)
@@ -207,11 +207,11 @@ def b(holder: Holder):
                                         </p>
                                     </dd>
                                     <dt id="Holder.loads">
-                                        loads(string: str) -&gt; Self
+                                        loads(string: Any) -&gt; Self
                                     </dt>
                                     <dd>
                                         <p>
-                                            This classmethod loads data from a string and create a new <code><a href="#Holder">Holder</a></code> instance from it.
+                                            This classmethod converts the given value into a string before loading data from it to create a new <code><a href="#Holder">Holder</a></code> instance.
                                         </p>
                                     </dd>
                                     <dt id="Holder.setdefault">
@@ -219,7 +219,7 @@ def b(holder: Holder):
                                     </dt>
                                     <dd>
                                         <p>The following two functions are equivalent:</p>
-<pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import Holder
 
 def a(holder: Holder):
     return holder.setdefault("hello", "world", default=42)
