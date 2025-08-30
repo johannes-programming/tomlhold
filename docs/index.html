@@ -179,10 +179,10 @@ def b(holder: Holder, **kwargs) -&gt; str:
                                         <p>The following two functions are equivalent:</p>
                                             <pre class="block"><code>from tomlhold import Holder
 
-def a(holder: Holder):
+def a(holder: Holder) -&gt; Any:
     return holder.get("hello", "world", default=42)
 
-def b(holder: Holder):
+def b(holder: Holder) -&gt; Any:
     try:
         return holder["hello", "world"]
     except KeyError:
@@ -221,10 +221,10 @@ def b(holder: Holder):
                                         <p>The following two functions are equivalent:</p>
                                             <pre class="block"><code>from tomlhold import Holder
 
-def a(holder: Holder):
+def a(holder: Holder) -&gt; Any:
     return holder.setdefault("hello", "world", default=42)
 
-def b(holder: Holder):
+def b(holder: Holder) -&gt; Any:
     try:
         return holder["hello", "world"]
     except KeyError:
