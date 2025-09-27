@@ -37,7 +37,7 @@ class TestHolderDataTypes(unittest.TestCase):
         "This testmethod tests if arrays (lists) are stored and retrieved correctly."
         array_data: list = [1, 2, 3, "four", True]
         self.holder["array_key"] = array_data
-        self.assertListEqual(self.holder["array_key"], array_data)
+        self.assertListEqual(list(self.holder["array_key"]), array_data)
 
     def test_datetime(self: Self) -> None:
         "This testmethod tests if datetimes are stored and retrieved correctly."
@@ -79,7 +79,8 @@ class TestHolderDataTypes(unittest.TestCase):
         "This testmethod tests if mixed-type arrays are stored and retrieved correctly."
         mixed_array: list = [1, "two", 3.0, True, {"nested_key": "nested_value"}]
         self.holder["mixed_array_key"] = mixed_array
-        self.assertEqual(self.holder["mixed_array_key"], mixed_array)
+        answer: list = self.holder.getitem("mixed_array_key", unfreeze=True)
+        self.assertEqual(answer, mixed_array)
 
     def test_multiline_string(self: Self) -> None:
         "This testmethod tests if multiline strings are stored and retrieved correctly."
@@ -112,7 +113,7 @@ with several lines."""
         self.assertEqual(
             self.holder["datetime"], datetime.datetime(2023, 1, 1, 0, 0, 0)
         )
-        self.assertListEqual(self.holder["array"], [1, 2, 3])
+        self.assertEqual(self.holder["array"], (1, 2, 3))
 
     def test_holder_as_toml_string(self: Self) -> None:
         "This testmethod tests if Holder can be serialized back into TOML format correctly."

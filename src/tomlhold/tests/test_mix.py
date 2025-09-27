@@ -37,7 +37,9 @@ class TestHolderCombined(unittest.TestCase):
         "This testmethod tests storing and retrieving arrays with multi-index support."
         array_data: list = [1, 2, 3, "four", True]
         self.holder["section", "array_key"] = array_data
-        self.assertListEqual(self.holder["section", "array_key"], array_data)
+        answer: tuple = self.holder["section", "array_key"]
+        solution: tuple = tuple(array_data)
+        self.assertEqual(answer, solution)
 
     def test_datetime(self: Self) -> None:
         "This testmethod tests storing and retrieving datetime objects with multi-index support."
@@ -78,7 +80,8 @@ class TestHolderCombined(unittest.TestCase):
         "This testmethod tests storing and retrieving mixed-type arrays with multi-index support."
         mixed_array: list = [1, "two", 3.0, True, {"nested_key": "nested_value"}]
         self.holder["section", "mixed_array_key"] = mixed_array
-        self.assertEqual(self.holder["section", "mixed_array_key"], mixed_array)
+        answer: list = self.holder.getitem("section", "mixed_array_key", unfreeze=True)
+        self.assertEqual(answer, mixed_array)
 
     def test_empty_table(self: Self) -> None:
         "This testmethod tests handling of empty tables (dictionaries) with multi-index support."
@@ -113,7 +116,7 @@ with several lines."""
         self.assertEqual(
             self.holder["datetime"], datetime.datetime(2023, 1, 1, 0, 0, 0)
         )
-        self.assertListEqual(self.holder["array"], [1, 2, 3])
+        self.assertListEqual(list(self.holder["array"]), [1, 2, 3])
 
     def test_dictlike_operations(self: Self) -> None:
         "This testmethod tests that the Holder supports dict-like operations."

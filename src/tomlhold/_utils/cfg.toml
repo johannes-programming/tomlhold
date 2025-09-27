@@ -1,0 +1,3 @@
+[msg]
+dict = "type %r is not allowed for keys of dictionaries"
+general = "type %r is not allowed for keys"
