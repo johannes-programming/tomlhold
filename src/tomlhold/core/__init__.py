@@ -76,14 +76,17 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
 class TOMLHolder(datahold.OkayDict):
     @setdoc.basic
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
-        keys = getkeys(keys)
-        if keys == []:
+        ans: dict | list
+        keys_: list
+        lastkey: int | str
+        keys_ = getkeys(keys)
+        if keys_ == []:
             self.clear()
             return
-        lastkey = keys.pop(-1)
+        lastkey = keys_.pop()
         ans = self._data
-        while keys:
-            ans = ans[keys.pop(0)]
+        while keys_:
+            ans = ans[keys_.pop(0)]
         del ans[lastkey]
 
     @setdoc.basic
@@ -101,18 +104,18 @@ class TOMLHolder(datahold.OkayDict):
     @setdoc.basic
     def __setitem__(self: Self, keys: tuple | int | str, value: Any) -> None:
         lastkey: Any
-        keys: list
+        keys_: list
         data: Any
         target: Any
         k: Any
-        keys = getkeys(keys)
-        if keys == []:
+        keys_ = getkeys(keys)
+        if keys_ == []:
             self.data = value
             return
-        lastkey = keys.pop()
+        lastkey = keys_.pop()
         data = getdict(self._data)
         target = data
-        for k in keys:
+        for k in keys_:
             if isinstance(target, dict):
                 target = target.setdefault(k, {})
             else:
@@ -128,10 +131,6 @@ class TOMLHolder(datahold.OkayDict):
     @data.setter
     def data(self: Self, value: Any) -> None:
         self._data = getdict(dict(value))
-
-    @data.deleter
-    def data(self: Self) -> None:
-        self.clear()
 
     def dump(self: Self, stream: Any, **kwargs: Any) -> None:
         "This method dumps the data into a byte stream."
@@ -156,11 +155,7 @@ class TOMLHolder(datahold.OkayDict):
     @classmethod
     def load(cls: type, stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
-        data: dict
-        ans: Self
-        data = tomllib.load(stream, **kwargs)
-        ans = cls(data)
-        return ans
+        return cls(tomllib.load(stream, **kwargs))
 
     @classmethod
     def loadfromfile(cls: type, file: str, **kwargs: Any) -> Self:
@@ -171,11 +166,7 @@ class TOMLHolder(datahold.OkayDict):
     @classmethod
     def loads(cls: type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
-        data: dict
-        ans: Self
-        data = tomllib.loads(string)
-        ans = cls(data, **kwargs)
-        return ans
+        return cls(tomllib.loads(string, **kwargs))
 
     def setdefault(self: Self, *keys: int | str, default: Any) -> Any:
         "This method returns self[*keys] after setting it to default if previously absent."
