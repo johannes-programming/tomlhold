@@ -72,6 +72,9 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
 
 
 class TOMLHolder(datahold.OkayDict):
+
+    data: frozendict
+
     @setdoc.basic
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
         ans: dict | list
