@@ -51,7 +51,9 @@ def getkeys(keys: Any, /) -> list[int | str]:
 
 def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     "This function returns a TOML value."
+    msg: str
     g: Iterable
+    t: str
     if isinstance(value, (dict, frozendict)):
         return getdict(value, freeze=freeze)
     if isinstance(value, (list, tuple)):
@@ -86,9 +88,11 @@ class TOMLHolder(datahold.OkayDict):
 
     @setdoc.basic
     def __getitem__(self: Self, keys: tuple | int | str) -> Any:
-        keys: list = getkeys(keys)
-        ans: Any = self._data
+        keys: list
         key: Any
+        ans: Any
+        keys = getkeys(keys)
+        ans = self._data
         for key in keys:
             ans = ans[key]
         ans = getvalue(ans)
@@ -96,14 +100,18 @@ class TOMLHolder(datahold.OkayDict):
 
     @setdoc.basic
     def __setitem__(self: Self, keys: tuple | int | str, value: Any) -> None:
-        keys: list = getkeys(keys)
+        lastkey: Any
+        keys: list
+        data: Any
+        target: Any
+        k: Any
+        keys = getkeys(keys)
         if keys == []:
             self.data = value
             return
-        lastkey: Any = keys.pop(-1)
-        data: Any = getdict(self._data)
-        target: Any = data
-        k: Any
+        lastkey = keys.pop()
+        data = getdict(self._data)
+        target = data
         for k in keys:
             if isinstance(target, dict):
                 target = target.setdefault(k, {})
@@ -148,8 +156,10 @@ class TOMLHolder(datahold.OkayDict):
     @classmethod
     def load(cls: type, stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
-        data: dict = tomllib.load(stream, **kwargs)
-        ans: Self = cls(data)
+        data: dict
+        ans: Self
+        data = tomllib.load(stream, **kwargs)
+        ans = cls(data)
         return ans
 
     @classmethod
@@ -161,8 +171,10 @@ class TOMLHolder(datahold.OkayDict):
     @classmethod
     def loads(cls: type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
-        data: dict = tomllib.loads(string)
-        ans: Self = cls(data, **kwargs)
+        data: dict
+        ans: Self
+        data = tomllib.loads(string)
+        ans = cls(data, **kwargs)
         return ans
 
     def setdefault(self: Self, *keys: int | str, default: Any) -> Any:
