@@ -5,7 +5,7 @@ from typing import *
 import datahold
 import tomli_w
 
-__all__ = ["Holder"]
+__all__ = ["TOMLHolder"]
 
 
 # getdict
@@ -79,7 +79,7 @@ def setdocstring(new: Any, /) -> Any:
     return new
 
 
-class Holder(datahold.OkayDict):
+class TOMLHolder(datahold.OkayDict):
     @setdocstring
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
         keys = getkeys(keys)
@@ -182,3 +182,6 @@ class Holder(datahold.OkayDict):
             self[keys] = default
             ans = self[keys]
         return ans
+
+
+Holder: type = TOMLHolder
