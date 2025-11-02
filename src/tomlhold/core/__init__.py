@@ -61,14 +61,6 @@ def getvalue(value: Any, /) -> Any:
     raise TypeError(msg)
 
 
-def setdocstring(new: Any, /) -> Any:
-    "This decorator sets the doc string."
-    name: Any = new.__name__
-    old: Any = getattr(datahold.OkayDict, name)
-    new.__doc__ = old.__doc__
-    return new
-
-
 class TOMLHolder(datahold.OkayDict):
     @setdoc.basic
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
@@ -111,7 +103,7 @@ class TOMLHolder(datahold.OkayDict):
         self.data = data
 
     @property
-    @setdocstring
+    @setdoc.basic
     def data(self: Self) -> dict[str, Any]:
         return getdict(dict(self._data))
 
@@ -136,8 +128,8 @@ class TOMLHolder(datahold.OkayDict):
         "This method dumps the data as a string."
         return tomli_w.dumps(self.data, **kwargs)
 
-    @setdocstring
     def get(self: Self, *keys: int | str, default: Any = None) -> Any:
+        "This method returns self[*keys] if that exists, otherwise default."
         try:
             return self[keys]
         except KeyError:
@@ -163,8 +155,8 @@ class TOMLHolder(datahold.OkayDict):
         ans: Self = cls(data, **kwargs)
         return ans
 
-    @setdocstring
     def setdefault(self: Self, *keys: int | str, default: Any) -> Any:
+        "This method returns self[*keys] after setting it to default if previously absent."
         ans: Any
         try:
             ans = self[keys]
