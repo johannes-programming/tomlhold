@@ -1,15 +1,17 @@
 import tomllib
 from datetime import date, datetime, time
+from functools import partial
 from typing import *
 
 import datahold
 import setdoc
 import tomli_w
+from frozendict import frozendict
 
 __all__ = ["Holder", "TOMLHolder"]
 
 
-def getdict(d: dict, /) -> dict:
+def getdict(d: dict, /, *, freeze: bool = False) -> dict | frozendict:
     "This function returns a TOML dict."
     ans: dict
     k: Any
@@ -20,8 +22,11 @@ def getdict(d: dict, /) -> dict:
             msg = "type %r is not allowed for keys of dictionaries"
             msg %= type(k).__name__
             raise TypeError(msg)
-        ans[k] = getvalue(d[k])
-    return ans
+        ans[k] = getvalue(d[k], freeze=freeze)
+    if freeze:
+        return frozendict(ans)
+    else:
+        return ans
 
 
 def getkey(key: int | str) -> int | str:
@@ -44,12 +49,17 @@ def getkeys(keys: Any, /) -> list[int | str]:
         return [getkey(keys)]
 
 
-def getvalue(value: Any, /) -> Any:
+def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     "This function returns a TOML value."
-    if isinstance(value, dict):
-        return getdict(value)
-    if isinstance(value, list):
-        return [getvalue(v) for v in value]
+    g: Iterable
+    if isinstance(value, (dict, frozendict)):
+        return getdict(value, freeze=freeze)
+    if isinstance(value, (list, tuple)):
+        g = map(partial(getvalue, freeze=freeze), value)
+        if freeze:
+            return tuple(g)
+        else:
+            return list(g)
     for t in (bool, float, int, str):
         if isinstance(value, t):
             return t(value)
@@ -91,7 +101,7 @@ class TOMLHolder(datahold.OkayDict):
             self.data = value
             return
         lastkey: Any = keys.pop(-1)
-        data: Any = self.data
+        data: Any = getdict(self._data)
         target: Any = data
         k: Any
         for k in keys:
@@ -104,8 +114,8 @@ class TOMLHolder(datahold.OkayDict):
 
     @property
     @setdoc.basic
-    def data(self: Self) -> dict[str, Any]:
-        return getdict(dict(self._data))
+    def data(self: Self) -> frozendict[str, Any]:
+        return getdict(self._data, freeze=True)
 
     @data.setter
     def data(self: Self, value: Any) -> None:
@@ -117,7 +127,7 @@ class TOMLHolder(datahold.OkayDict):
 
     def dump(self: Self, stream: Any, **kwargs: Any) -> None:
         "This method dumps the data into a byte stream."
-        tomli_w.dump(self.data, stream, **kwargs)
+        tomli_w.dump(self._data, stream, **kwargs)
 
     def dumpintofile(self: Self, file: str, **kwargs: Any) -> None:
         "This method dumps the data into a file."
@@ -126,7 +136,7 @@ class TOMLHolder(datahold.OkayDict):
 
     def dumps(self: Self, **kwargs: Any) -> str:
         "This method dumps the data as a string."
-        return tomli_w.dumps(self.data, **kwargs)
+        return tomli_w.dumps(self._data, **kwargs)
 
     def get(self: Self, *keys: int | str, default: Any = None) -> Any:
         "This method returns self[*keys] if that exists, otherwise default."
