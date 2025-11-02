@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=61.0",
+    "setuptools>=64.0",
 ]
 
 [project]
@@ -21,6 +21,7 @@ classifiers = [
 ]
 dependencies = [
     "datahold>=1.1.10,<2",
+    "setdoc>=1.2.6,<2",
     "tomli-w>=1.0,<2",
 ]
 description = "This project provides holders for TOML data."
@@ -28,7 +29,7 @@ keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.1.0"
+version = "1.1.1"
 
 [project.license]
 file = "LICENSE.txt"

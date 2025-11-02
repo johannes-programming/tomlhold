@@ -3,17 +3,18 @@ from datetime import date, datetime, time
 from typing import *
 
 import datahold
+import setdoc
 import tomli_w
 
-__all__ = ["TOMLHolder"]
+__all__ = ["Holder", "TOMLHolder"]
 
 
-# getdict
 def getdict(d: dict, /) -> dict:
     "This function returns a TOML dict."
-    ans: dict = dict()
+    ans: dict
     k: Any
     msg: str
+    ans = dict()
     for k in d.keys():
         if type(k) is not str:
             msg = "type %r is not allowed for keys of dictionaries"
@@ -23,21 +24,16 @@ def getdict(d: dict, /) -> dict:
     return ans
 
 
-# getkey
-
-
 def getkey(key: int | str) -> int | str:
     "This function returns a TOML key."
+    msg: str
     if type(key) is int:
         return key
     if type(key) is str:
         return key
-    msg: str = "type %r is not allowed for keys"
+    msg = "type %r is not allowed for keys"
     msg %= type(key).__name__
     raise TypeError(msg)
-
-
-# getkeys
 
 
 def getkeys(keys: Any, /) -> list[int | str]:
@@ -46,9 +42,6 @@ def getkeys(keys: Any, /) -> list[int | str]:
         return list(map(getkey, keys))
     else:
         return [getkey(keys)]
-
-
-# getvalue
 
 
 def getvalue(value: Any, /) -> Any:
@@ -68,9 +61,6 @@ def getvalue(value: Any, /) -> Any:
     raise TypeError(msg)
 
 
-# setdocstring
-
-
 def setdocstring(new: Any, /) -> Any:
     "This decorator sets the doc string."
     name: Any = new.__name__
@@ -80,7 +70,7 @@ def setdocstring(new: Any, /) -> Any:
 
 
 class TOMLHolder(datahold.OkayDict):
-    @setdocstring
+    @setdoc.basic
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
         keys = getkeys(keys)
         if keys == []:
@@ -92,7 +82,7 @@ class TOMLHolder(datahold.OkayDict):
             ans = ans[keys.pop(0)]
         del ans[lastkey]
 
-    @setdocstring
+    @setdoc.basic
     def __getitem__(self: Self, keys: tuple | int | str) -> Any:
         keys: list = getkeys(keys)
         ans: Any = self._data
@@ -102,7 +92,7 @@ class TOMLHolder(datahold.OkayDict):
         ans = getvalue(ans)
         return ans
 
-    @setdocstring
+    @setdoc.basic
     def __setitem__(self: Self, keys: tuple | int | str, value: Any) -> None:
         keys: list = getkeys(keys)
         if keys == []:

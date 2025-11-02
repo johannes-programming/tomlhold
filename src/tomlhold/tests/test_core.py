@@ -1,19 +1,19 @@
 import unittest
 from typing import *
 
-from tomlhold.core import Holder
+from tomlhold.core import TOMLHolder
 
 
-class TestHolder(unittest.TestCase):
+class TestTOMLHolder(unittest.TestCase):
 
     def setUp(self: Self) -> None:
-        "This method is called before each test case to set up a new instance of the Holder class."
+        "This method is called before each test case to set up a new instance of the TOMLHolder class."
         self.initial_data = {
             "key1": "value1",
             "key2": "value2",
             "nested": {"nested_key1": "nested_value1"},
         }
-        self.holder = Holder()
+        self.holder = TOMLHolder()
         self.holder.data = self.initial_data
 
     def test_get_item(self: Self) -> None:
@@ -32,7 +32,7 @@ class TestHolder(unittest.TestCase):
         self.assertNotIn("key1", self.holder)
 
     def test_key_in_holder(self: Self) -> None:
-        "This testmethod tests if we can check if a key is in the Holder."
+        "This testmethod tests if we can check if a key is in the TOMLHolder."
         self.assertIn("key1", self.holder)
         self.assertNotIn("key3", self.holder)
 
@@ -57,12 +57,12 @@ class TestHolder(unittest.TestCase):
 
     def test_copy(self: Self) -> None:
         "This testmethod tests if copy works correctly."
-        holder_copy: Holder = self.holder.copy()
+        holder_copy: TOMLHolder = self.holder.copy()
         self.assertEqual(holder_copy, self.holder)
 
     def test_equality(self: Self) -> None:
-        "This testmethod tests equality of two Holder instances."
-        holder2: Holder = Holder(self.initial_data)
+        "This testmethod tests equality of two TOMLHolder instances."
+        holder2: TOMLHolder = TOMLHolder(self.initial_data)
         self.assertEqual(self.holder, holder2)
         holder2["key3"] = "value3"
         self.assertNotEqual(self.holder, holder2)
@@ -73,7 +73,7 @@ class TestHolder(unittest.TestCase):
         self.assertEqual(len(self.holder), 0)
 
     def test_initialization_with_toml(self: Self) -> None:
-        "This testmethod tests if the Holder initializes correctly with TOML data."
+        "This testmethod tests if the TOMLHolder initializes correctly with TOML data."
         toml_data: str = """
         [section]
         key1 = "value1"
@@ -81,7 +81,7 @@ class TestHolder(unittest.TestCase):
         [section.nested]
         nested_key1 = "nested_value1"
         """
-        holder: Holder = Holder.loads(toml_data)
+        holder: TOMLHolder = TOMLHolder.loads(toml_data)
         self.assertEqual(holder["section", "key1"], "value1")
         self.assertEqual(holder["section"]["nested"]["nested_key1"], "nested_value1")
 
