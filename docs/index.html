@@ -18,7 +18,7 @@
                         <p>Here's a simple example:</p>
                         <pre class="block"><code>import tomlhold
 
-# Example 1: Create Holder from a TOML string
+# Example 1: Create TOMLHolder from a TOML string
 toml_data = """
 [database]
 server = "192.168.1.1"
@@ -26,7 +26,7 @@ ports = [ 8001, 8001, 8002 ]
 connection_max = 5000
 enabled = true
 """
-h = tomlhold.Holder.loads(toml_data)
+h = tomlhold.TOMLHolder.loads(toml_data)
 
 # Access a single value
 print(h["database", "server"])
@@ -48,7 +48,7 @@ try:
 except Exception as e:
     print(f"Error: {e}")  # Ensures only TOML-compatible data is allowed
 
-# Example 6: Create Holder from a dictionary and convert it to TOML format
+# Example 6: Create TOMLHolder from a dictionary and convert it to TOML format
 data_dict = {
     "title": "Example",
     "owner": {
@@ -56,10 +56,10 @@ data_dict = {
         "dob": "1979-05-27T07:32:00Z"
     }
 }
-h = tomlhold.Holder(data_dict)
+h = tomlhold.TOMLHolder(data_dict)
 print(h)
 
-# Example 7: Iterate through Holder object like a regular dictionary
+# Example 7: Iterate through TOMLHolder object like a regular dictionary
 for section, values in h.items():
     print(section, values)
 
@@ -69,19 +69,23 @@ for section, values in h.items():
     # 10000
     # New Value
     # Error: type &lt;class 'object'&gt; is not allowed for values
-    # Holder({'title': 'Example', 'owner': {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}})
+    # TOMLHolder({'title': 'Example', 'owner': {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}})
     # title Example
     # owner {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}</code></pre>
                     </dd>
                     <dt>Features</dt>
                     <dd>
                         <dl class="heading4">
-                            <dt id="Holder.__new__">
-                                class tomlhold.Holder(data: Any = None)
+                            <dt id="Holder.__new__">Holder: type</dt>
+                            <dd>
+                                This variable is an alias for TOMLHolder, included for legacy.
+                            </dd>
+                            <dt id="TOMLHolder.__new__">
+                                class tomlhold.TOMLHolder(data: Any = None)
                             </dt>
                             <dd>
                                 <p>
-                                    <code><a href="#Holder">Holder</a></code> 
+                                    <code><a href="#TOMLHolder">TOMLHolder</a></code> 
                                     is a subclass of <code><a href="https://datahold.johannes-programming.online">datahold</a>.OkayDict</code> 
                                     specifically for handling <a href="https://toml.io/">TOML</a>.
                                     All features that are overwritten are described below.
@@ -90,7 +94,7 @@ for section, values in h.items():
                                     Calling the class creates a new instance. 
                                 </p>
                                 <dl class="heading4">
-                                    <dt id="Holder.__delitem__">
+                                    <dt id="TOMLHolder.__delitem__">
                                         __delitem__(keys: tuple | int | str) -&gt; None
                                     </dt>
                                     <dd>
@@ -98,7 +102,7 @@ for section, values in h.items():
                                             This magic method deletes a value at the location specified by a sequence of keys.
                                         </p>
                                     </dd>
-                                    <dt id="Holder.__getitem__">
+                                    <dt id="TOMLHolder.__getitem__">
                                         __getitem__(keys: tuple | int | str) -&gt; Any
                                     </dt>
                                     <dd>
@@ -106,7 +110,7 @@ for section, values in h.items():
                                             This magic method returns a value at the location specified by a sequence of keys.
                                         </p>
                                     </dd>
-                                    <dt id="Holder.__setitem__">
+                                    <dt id="TOMLHolder.__setitem__">
                                         __setitem__(keys: tuple | int | str,
                                             value: Any) 
                                             -&gt; None
@@ -116,7 +120,7 @@ for section, values in h.items():
                                             This magic method alters a value at the location specified by a sequence of keys.
                                         </p>
                                     </dd>
-                                    <dt id="Holder.dump">
+                                    <dt id="TOMLHolder.dump">
                                         dump(stream: Any, **kwargs: Any) -&gt; None
                                     </dt>
                                     <dd>
@@ -124,18 +128,18 @@ for section, values in h.items():
                                             This method dumps the data of the current instance into a byte stream. 
                                             The following two functions are equivalent:
                                         </p>
-                                            <pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import TOMLHolder
 import tomli_w
 
 stream = open("example.toml", "wb")
 
-def a(holder: Holder, **kwargs) -&gt; None:
+def a(holder: TOMLHolder, **kwargs) -&gt; None:
     holder.dump(stream, **kwargs)
 
-def b(holder: Holder, **kwargs) -&gt; None:
+def b(holder: TOMLHolder, **kwargs) -&gt; None:
     tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
                                     </dd>
-                                    <dt id="Holder.dumpintofile">
+                                    <dt id="TOMLHolder.dumpintofile">
                                         dumpintofile(file: str, **kwargs: Any)
                                             -&gt; None
                                     </dt>
@@ -144,17 +148,17 @@ def b(holder: Holder, **kwargs) -&gt; None:
                                             This method dumps the data of the current instance into a file.  
                                             The following two functions are equivalent:
                                         </p>
-<pre class="block"><code>from tomlhold import Holder
+<pre class="block"><code>from tomlhold import TOMLHolder
 import tomli_w
 
-def a(holder: Holder, **kwargs) -&gt; None:
+def a(holder: TOMLHolder, **kwargs) -&gt; None:
     return holder.dumpintofile("example.toml", **kwargs)
 
-def b(holder: Holder, **kwargs) -&gt; None:
+def b(holder: TOMLHolder, **kwargs) -&gt; None:
     with open("example.toml", "wb") as stream:
         tomli_w.dump(holder.data, stream, **kwargs)</code></pre>
                                     </dd>
-                                    <dt id="Holder.dumps">
+                                    <dt id="TOMLHolder.dumps">
                                         dumps(**kwargs: Any) -&gt; str
                                     </dt>
                                     <dd>
@@ -162,69 +166,69 @@ def b(holder: Holder, **kwargs) -&gt; None:
                                             This method dumps the data of the current instance into a string. 
                                             The following two functions are equivalent:
                                         </p>
-                                            <pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import TOMLHolder
 import tomli_w
 
-def a(holder: Holder, **kwargs) -&gt; str:
+def a(holder: TOMLHolder, **kwargs) -&gt; str:
     return holder.dumps(**kwargs)
 
-def b(holder: Holder, **kwargs) -&gt; str:
+def b(holder: TOMLHolder, **kwargs) -&gt; str:
     return tomli_w.dumps(holder.data, **kwargs)</code></pre>
                                     </dd>
-                                    <dt id="Holder.get">
+                                    <dt id="TOMLHolder.get">
                                         get(*keys:Any, default:Any = None)
                                             -&gt; Any
                                     </dt>
                                     <dd>
                                         <p>The following two functions are equivalent:</p>
-                                            <pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import TOMLHolder
 
-def a(holder: Holder) -&gt; Any:
+def a(holder: TOMLHolder) -&gt; Any:
     return holder.get("hello", "world", default=42)
 
-def b(holder: Holder) -&gt; Any:
+def b(holder: TOMLHolder) -&gt; Any:
     try:
         return holder["hello", "world"]
     except KeyError:
         return 42</code></pre>
                                     </dd>
-                                    <dt id="Holder.load">
+                                    <dt id="TOMLHolder.load">
                                         load(stream: Any)
                                             -&gt; Self
                                     </dt>
                                     <dd>
                                         <p>
-                                            This classmethod loads data from a byte stream and create a new <code><a href="#Holder">Holder</a></code> instance from it.
+                                            This classmethod loads data from a byte stream and create a new <code><a href="#TOMLHolder">TOMLHolder</a></code> instance from it.
                                         </p>
                                     </dd>
-                                    <dt id="Holder.loadfromfile">
+                                    <dt id="TOMLHolder.loadfromfile">
                                         loadfromfile(file: str)
                                             -&gt; Self
                                     </dt>
                                     <dd>
                                         <p>
-                                            This classmethod loads data from a file and create a new <code><a href="#Holder">Holder</a></code> instance from it.
+                                            This classmethod loads data from a file and create a new <code><a href="#TOMLHolder">TOMLHolder</a></code> instance from it.
                                         </p>
                                     </dd>
-                                    <dt id="Holder.loads">
+                                    <dt id="TOMLHolder.loads">
                                         loads(string: Any) -&gt; Self
                                     </dt>
                                     <dd>
                                         <p>
-                                            This classmethod converts the given value into a string before loading data from it to create a new <code><a href="#Holder">Holder</a></code> instance.
+                                            This classmethod converts the given value into a string before loading data from it to create a new <code><a href="#TOMLHolder">TOMLHolder</a></code> instance.
                                         </p>
                                     </dd>
-                                    <dt id="Holder.setdefault">
+                                    <dt id="TOMLHolder.setdefault">
                                         setdefault(*keys: Any, default: Any = None) -&gt; Any
                                     </dt>
                                     <dd>
                                         <p>The following two functions are equivalent:</p>
-                                            <pre class="block"><code>from tomlhold import Holder
+                                            <pre class="block"><code>from tomlhold import TOMLHolder
 
-def a(holder: Holder) -&gt; Any:
+def a(holder: TOMLHolder) -&gt; Any:
     return holder.setdefault("hello", "world", default=42)
 
-def b(holder: Holder) -&gt; Any:
+def b(holder: TOMLHolder) -&gt; Any:
     try:
         return holder["hello", "world"]
     except KeyError:
