@@ -11,18 +11,18 @@ from frozendict import frozendict
 __all__ = ["Holder", "TOMLHolder"]
 
 
-def getdict(d: dict, /, *, freeze: bool = False) -> dict | frozendict:
+def getdict(data: dict, /, *, freeze: bool = False) -> dict | frozendict:
     "This function returns a TOML dict."
     ans: dict
-    k: Any
     msg: str
+    x: Any
     ans = dict()
-    for k in d.keys():
-        if type(k) is not str:
+    for x in frozendict(data).keys():
+        if type(x) is not str:
             msg = "type %r is not allowed for keys of dictionaries"
-            msg %= type(k).__name__
+            msg %= type(x).__name__
             raise TypeError(msg)
-        ans[k] = getvalue(d[k], freeze=freeze)
+        ans[x] = getvalue(data[x], freeze=freeze)
     if freeze:
         return frozendict(ans)
     else:
@@ -32,9 +32,7 @@ def getdict(d: dict, /, *, freeze: bool = False) -> dict | frozendict:
 def getkey(key: int | str) -> int | str:
     "This function returns a TOML key."
     msg: str
-    if type(key) is int:
-        return key
-    if type(key) is str:
+    if type(key) in (int, str):
         return key
     msg = "type %r is not allowed for keys"
     msg %= type(key).__name__
@@ -130,7 +128,7 @@ class TOMLHolder(datahold.OkayDict):
 
     @data.setter
     def data(self: Self, value: Any) -> None:
-        self._data = getdict(dict(value))
+        self._data = getdict(value)
 
     def dump(self: Self, stream: Any, **kwargs: Any) -> None:
         "This method dumps the data into a byte stream."
