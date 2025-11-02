@@ -2,14 +2,14 @@ import datetime
 import unittest
 from typing import *
 
-from tomlhold.core import Holder
+from tomlhold.core import TOMLHolder
 
 
-class TestHolderCombined(unittest.TestCase):
+class TestTOMLHolderCombined(unittest.TestCase):
 
     def setUp(self: Self) -> None:
-        "This method is called before each test case to set up a new instance of the Holder class."
-        self.holder = Holder()
+        "This method is called before each test case to set up a new instance of the TOMLHolder class."
+        self.holder = TOMLHolder()
 
     def test_string(self: Self) -> None:
         "This testmethod tests storing and retrieving strings with multi-index support."
@@ -96,7 +96,7 @@ with several lines."""
         )
 
     def test_update_with_multiple_data_types(self: Self) -> None:
-        "This testmethod tests updating the Holder with multiple data types at once."
+        "This testmethod tests updating the TOMLHolder with multiple data types at once."
         update_data: dict = {
             "string": "test_string",
             "integer": 100,
@@ -116,7 +116,7 @@ with several lines."""
         self.assertListEqual(self.holder["array"], [1, 2, 3])
 
     def test_dictlike_operations(self: Self) -> None:
-        "This testmethod tests that the Holder supports dict-like operations."
+        "This testmethod tests that the TOMLHolder supports dict-like operations."
         self.holder["key1"] = "value1"
         self.holder["key2"] = "value2"
 
@@ -153,7 +153,7 @@ with several lines."""
         self.assertEqual(self.holder["a", "42", "foo"], "new_bar")
 
     def test_holder_as_toml_string(self: Self) -> None:
-        "This testmethod tests if Holder can be serialized back into TOML format correctly."
+        "This testmethod tests if TOMLHolder can be serialized back into TOML format correctly."
         toml_data: str = """
         key1 = "value1"
         key2 = 42
@@ -161,7 +161,7 @@ with several lines."""
         boolean_key = true
         array_key = [1, 2, 3, "four"]
         """
-        holder: Holder = Holder.loads(toml_data)
+        holder: TOMLHolder = TOMLHolder.loads(toml_data)
         toml_string: str = holder.dumps()
         self.assertIn('key1 = "value1"', toml_string)
         self.assertIn("key2 = 42", toml_string)
