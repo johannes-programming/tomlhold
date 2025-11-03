@@ -174,7 +174,7 @@ class TOMLHolder(datahold.OkayDict):
         ans: Any
         try:
             ans = self[keys]
-        except:
+        except Exception:
             self[keys] = default
             ans = self[keys]
         return ans
