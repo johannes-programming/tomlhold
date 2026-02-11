@@ -3,12 +3,14 @@ from datetime import date, datetime, time
 from functools import partial
 from typing import *
 
+import cmp3
 import datahold
 import setdoc
 import tomli_w
 from frozendict import frozendict
+from datarepr import datarepr
 
-__all__ = ["Holder", "TOMLHolder"]
+__all__ = ["TOMLHolder"]
 
 
 def getdict(data: dict, /, *, freeze: bool = False) -> dict | frozendict:
@@ -71,9 +73,21 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     raise TypeError(msg)
 
 
-class TOMLHolder(datahold.OkayDict):
+class TOMLHolder(cmp3.CmpABC, datahold.HoldDict[str, Any]):
 
-    data: frozendict
+    data: frozendict[str, Any]
+
+    @setdoc.basic
+    def __bool__(self:Self)->bool:
+        return bool(self.data)
+
+    @setdoc.basic
+    def __cmp__(self:Self, other:Any) -> Optional[int]:
+        if type(self) is not type(other):
+            return
+        if self.data != other.data:
+            return
+        return 0
 
     @setdoc.basic
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
@@ -92,21 +106,25 @@ class TOMLHolder(datahold.OkayDict):
 
     @setdoc.basic
     def __getitem__(self: Self, keys: tuple | int | str) -> Any:
-        keys: list
-        key: Any
         ans: Any
+        key: Any
+        keys: list
         keys = getkeys(keys)
         ans = self._data
         for key in keys:
             ans = ans[key]
         ans = getvalue(ans)
         return ans
+    
+    @setdoc.basic
+    def __repr__(self:Self) -> str:
+        return datarepr(type(self).__name__, dict(self.data))
 
     @setdoc.basic
     def __setitem__(self: Self, keys: tuple | int | str, value: Any) -> None:
-        lastkey: Any
-        keys_: list
         data: Any
+        keys_: list
+        lastkey: Any
         target: Any
         k: Any
         keys_ = getkeys(keys)
@@ -123,6 +141,10 @@ class TOMLHolder(datahold.OkayDict):
                 target = target[k]
         target[lastkey] = value
         self.data = data
+    
+    @setdoc.basic
+    def __str__(self:Self)->str:
+        return repr(self)
 
     @property
     @setdoc.basic
@@ -154,30 +176,25 @@ class TOMLHolder(datahold.OkayDict):
             return default
 
     @classmethod
-    def load(cls: type, stream: Any, **kwargs: Any) -> Self:
+    def load(cls: type[Self], stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
         return cls(tomllib.load(stream, **kwargs))
 
     @classmethod
-    def loadfromfile(cls: type, file: str, **kwargs: Any) -> Self:
+    def loadfromfile(cls: type[Self], file: str, **kwargs: Any) -> Self:
         "This classmethod loads data from file."
         with open(file, "rb") as stream:
             return cls.load(stream, **kwargs)
 
     @classmethod
-    def loads(cls: type, string: str, **kwargs: Any) -> Self:
+    def loads(cls: type[Self], string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
         return cls(tomllib.loads(string, **kwargs))
 
     def setdefault(self: Self, *keys: int | str, default: Any) -> Any:
         "This method returns self[*keys] after setting it to default if previously absent."
-        ans: Any
         try:
-            ans = self[keys]
+            return self[keys]
         except Exception:
             self[keys] = default
-            ans = self[keys]
-        return ans
-
-
-Holder: type = TOMLHolder
+            return self[keys]
