@@ -246,7 +246,7 @@ def b(holder: TOMLHolder) -&gt; Any:
                                 </dl>
                             </dd>
                             <dd version="1.1">
-                                This variable is an alias for TOMLHolder, included for legacy.
+                                <p>This variable is an alias for TOMLHolder, included for legacy.</p>
                             </dd>
                             <dt id="1--TOMLHolder.__new__" version="1.1">
                                 class tomlhold.TOMLHolder(data: Any = None)
@@ -261,6 +261,12 @@ def b(holder: TOMLHolder) -&gt; Any:
                                 <p> 
                                     Calling the class creates a new instance. 
                                 </p>
+                                <div class="minor minor-changed">
+                                    <p>
+                                        <span>Changed in version 1.1:</span>
+                                        This class was previously <code>tomlhold.Holder</code>.
+                                    </p>
+                                </div>
                                 <dl class="heading4">
                                     <dt id="TOMLHolder.__delitem__">
                                         __delitem__(keys: tuple | int | str) -&gt; None
