@@ -429,13 +429,20 @@ def b(holder: TOMLHolder) -&gt; Any:
             </dd>
         </dl>
     </body>
-    <script src="https://www.johannes-programming.online/script.js"></script>
-    <script>
+    <script type="module">
+        import {
+            setupImpressumCorpus,
+            setupInstallCorpus,
+            setupLicenseCorpus,
+            setupLinksCorpus,
+            setupTestingCorpus,
+            addMetaAndLinkTags,
+        } from "https://www.johannes-programming.online/script.js";
+        setupImpressumCorpus("tomlhold");
         setupInstallCorpus("tomlhold");
-        setupTestingCorpus("tomlhold");
         setupLicenseCorpus("tomlhold");
         setupLinksCorpus("tomlhold");
-        setupImpressumCorpus("tomlhold");
+        setupTestingCorpus("tomlhold");
         addMetaAndLinkTags();
     </script>
 </html>
