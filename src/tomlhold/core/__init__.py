@@ -51,22 +51,22 @@ def getkeys(keys: Any, /) -> list[int | str]:
 
 def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     "This function returns a TOML value."
+    gen: Iterable
     msg: str
-    g: Iterable
-    t: str
+    type_: type
     if isinstance(value, (dict, frozendict)):
         return getdict(value, freeze=freeze)
     if isinstance(value, (list, tuple)):
-        g = map(partial(getvalue, freeze=freeze), value)
+        gen = map(partial(getvalue, freeze=freeze), value)
         if freeze:
-            return tuple(g)
+            return tuple(gen)
         else:
-            return list(g)
-    for t in (bool, float, int, str):
-        if isinstance(value, t):
-            return t(value)
-    for t in (datetime, date, time):
-        if type(value) is t:
+            return list(gen)
+    for type_ in (bool, float, int, str):
+        if isinstance(value, type_):
+            return type_(value)
+    for type_ in (datetime, date, time):
+        if type(value) is type_:
             return value
     msg = "type %r is not allowed for values"
     msg %= type(value).__name__
@@ -78,16 +78,10 @@ class TOMLHolder(cmp3.CmpABC, datahold.HoldDict[str, Any]):
     data: frozendict[str, Any]
 
     @setdoc.basic
-    def __bool__(self: Self) -> bool:
-        return bool(self.data)
-
-    @setdoc.basic
     def __cmp__(self: Self, other: Any) -> Optional[int]:
         if type(self) is not type(other):
             return
-        if self.data != other.data:
-            return
-        return 0
+        return cmp3.cmp(self.data, other.data, mode="eq_strict")
 
     @setdoc.basic
     def __delitem__(self: Self, keys: tuple | int | str) -> None:
