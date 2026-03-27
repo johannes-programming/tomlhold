@@ -1,0 +1,245 @@
+Overview
+--------
+
+This project provides dict-like holders for TOML data.
+
+Installation
+------------
+
+To install tomlhold, you can use pip. Open your terminal and run:
+
+.. code-block:: shell
+
+    pip install tomlhold
+
+Features
+--------
+
+``Holder: type = TOMLHolder``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This variable is an alias for TOMLHolder, included for legacy.
+
+.. container:: versionchanged
+    
+    **Changed in version 1.1.**
+
+``class tomlhold.TOMLHolder(data: Any = None)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TOMLHolder is a subclass of datahold.OkayDict specifically for handling TOML. All features that are overwritten are described below.
+
+Here's a simple example:
+
+.. code-block:: python
+
+    import tomlhold
+
+    # Example 1: Create TOMLHolder from a TOML string
+    toml_data = """
+    [database]
+    server = "192.168.1.1"
+    ports = [ 8001, 8001, 8002 ]
+    connection_max = 5000
+    enabled = true
+    """
+    h = tomlhold.TOMLHolder.loads(toml_data)
+
+    # Access a single value
+    print(h["database", "server"])
+
+    # Example 2: Access nested values using multiple indices
+    print(h["database", "ports", 2])
+
+    # Example 3: Update a value
+    h["database", "connection_max"] = 10000
+    print(h["database", "connection_max"])
+
+    # Example 4: Add a new section and key-value pair
+    h["new_section", "new_key"] = "New Value"
+    print(h["new_section", "new_key"])
+
+    # Example 5: TOML compatibility enforcement (invalid TOML raises an error)
+    try:
+        h["new_section", "invalid_key"] = {"invalid": object()}
+    except Exception as e:
+        print(f"Error: {e}")  # Ensures only TOML-compatible data is allowed
+
+    # Example 6: Create TOMLHolder from a dictionary and convert it to TOML format
+    data_dict = {
+        "title": "Example",
+        "owner": {
+            "name": "John Doe",
+            "dob": "1979-05-27T07:32:00Z"
+        }
+    }
+    h = tomlhold.TOMLHolder(data_dict)
+    print(h)
+
+    # Example 7: Iterate through TOMLHolder object like a regular dictionary
+    for section, values in h.items():
+        print(section, values)
+
+    # Output:
+        # 192.168.1.1
+        # 8002
+        # 10000
+        # New Value
+        # Error: type <class 'object'> is not allowed for values
+        # TOMLHolder({'title': 'Example', 'owner': {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}})
+        # title Example
+        # owner {'name': 'John Doe', 'dob': '1979-05-27T07:32:00Z'}
+
+.. container:: versionadded
+
+    **Added in version 1.1:** This class was previously tomlhold.Holder.
+
+``__delitem__(keys: tuple | int | str) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This magic method deletes a value at the location specified by a sequence of keys.
+
+``__getitem__(keys: tuple | int | str) -> Any``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This magic method returns a value at the location specified by a sequence of keys.
+
+``__setitem__(keys: tuple | int | str, value: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This magic method alters a value at the location specified by a sequence of keys.
+
+``dump(stream: Any, **kwargs: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a byte stream. The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import TOMLHolder
+    import tomli_w
+
+    stream = open("example.toml", "wb")
+
+    def a(holder: TOMLHolder, **kwargs) -> None:
+        holder.dump(stream, **kwargs)
+
+    def b(holder: TOMLHolder, **kwargs) -> None:
+        tomli_w.dump(holder.data, stream, **kwargs)
+
+``dumpintofile(file: str, **kwargs: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a file. The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import TOMLHolder
+    import tomli_w
+
+    def a(holder: TOMLHolder, **kwargs) -> None:
+        return holder.dumpintofile("example.toml", **kwargs)
+
+    def b(holder: TOMLHolder, **kwargs) -> None:
+        with open("example.toml", "wb") as stream:
+            tomli_w.dump(holder.data, stream, **kwargs)
+
+``dumps(**kwargs: Any) -> str``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a string. The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import TOMLHolder
+    import tomli_w
+
+    def a(holder: TOMLHolder, **kwargs) -> str:
+        return holder.dumps(**kwargs)
+
+    def b(holder: TOMLHolder, **kwargs) -> str:
+        return tomli_w.dumps(holder.data, **kwargs)
+
+``get(*keys: Any, default: Any = None) -> Any``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import TOMLHolder
+
+    def a(holder: TOMLHolder) -> Any:
+        return holder.get("hello", "world", default=42)
+
+    def b(holder: TOMLHolder) -> Any:
+        try:
+            return holder["hello", "world"]
+        except KeyError:
+            return 42
+
+``load(stream: Any) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This classmethod loads data from a byte stream and create a new TOMLHolder instance from it.
+
+``loadfromfile(file: str) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This classmethod loads data from a file and create a new TOMLHolder instance from it.
+
+``loads(string: Any) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This classmethod converts the given value into a string before loading data from it to create a new TOMLHolder instance.
+
+``setdefault(*keys: Any, default: Any = None) -> Any``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import TOMLHolder
+
+    def a(holder: TOMLHolder) -> Any:
+        return holder.setdefault("hello", "world", default=42)
+
+    def b(holder: TOMLHolder) -> Any:
+        try:
+            return holder["hello", "world"]
+        except KeyError:
+            holder["hello", "world"] = 42
+            return 42
+
+``tomlhold.test() -> unittest.TextTestResult``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This project can be tested through its test function.
+
+.. code-block:: python
+
+    import tomlhold
+    tomlhold.test()
+
+License
+-------
+
+This project is licensed under the MIT License.
+
+Links
+-----
+
+- Download: https://pypi.org/project/tomlhold/#files
+- Index: https://pypi.org/project/tomlhold/
+- Source: https://github.com/johannes-programming/tomlhold/
+- Website: https://tomlhold.johannes-programming.online/
+
+Impressum
+---------
+
+**Johannes Programming**
+
+- Name: Johannes
+- Email: johannes.programming@gmail.com
+- Homepage: https://www.johannes-programming.online/
+- Gravatar: https://www.johannes-programming.fyi/
