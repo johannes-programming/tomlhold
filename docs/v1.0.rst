@@ -1,0 +1,174 @@
+Overview
+--------
+
+This project provides dict-like holders for TOML data.
+
+Installation
+------------
+
+To install tomlhold, you can use pip. Open your terminal and run:
+
+.. code-block:: shell
+
+    pip install tomlhold
+
+Features
+--------
+
+``class tomlhold.Holder(data: Any = None)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Holder is a subclass of datahold.OkayDict specifically for handling TOML. All features that are overwritten are described below.
+
+Calling the class creates a new instance.
+
+``__delitem__(keys: tuple | int | str) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This magic method deletes a value at the location specified by a sequence of keys.
+
+``__getitem__(keys: tuple | int | str) -> Any``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This magic method returns a value at the location specified by a sequence of keys.
+
+``__setitem__(keys: tuple | int | str, value: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This magic method alters a value at the location specified by a sequence of keys.
+
+``dump(stream: Any, **kwargs: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a byte stream. The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import Holder
+    import tomli_w
+
+    stream = open("example.toml", "wb")
+
+    def a(holder: Holder, **kwargs) -> None:
+        holder.dump(stream, **kwargs)
+
+    def b(holder: Holder, **kwargs) -> None:
+        tomli_w.dump(holder.data, stream, **kwargs)
+
+``dumpintofile(file: str, **kwargs: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a file. The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import Holder
+    import tomli_w
+
+    def a(holder: Holder, **kwargs) -> None:
+        return holder.dumpintofile("example.toml", **kwargs)
+
+    def b(holder: Holder, **kwargs) -> None:
+        with open("example.toml", "wb") as stream:
+            tomli_w.dump(holder.data, stream, **kwargs)
+
+``dumps(**kwargs: Any) -> str``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a string. The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import Holder
+    import tomli_w
+
+    def a(holder: Holder, **kwargs) -> str:
+        return holder.dumps(**kwargs)
+
+    def b(holder: Holder, **kwargs) -> str:
+        return tomli_w.dumps(holder.data, **kwargs)
+
+``get(*keys: Any, default: Any = None) -> Any``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import Holder
+
+    def a(holder: Holder) -> Any:
+        return holder.get("hello", "world", default=42)
+
+    def b(holder: Holder) -> Any:
+        try:
+            return holder["hello", "world"]
+        except KeyError:
+            return 42
+
+``load(stream: Any) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This classmethod loads data from a byte stream and create a new Holder instance from it.
+
+``loadfromfile(file: str) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This classmethod loads data from a file and create a new Holder instance from it.
+
+``loads(string: Any) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This classmethod converts the given value into a string before loading data from it to create a new Holder instance.
+
+``setdefault(*keys: Any, default: Any = None) -> Any``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following two functions are equivalent:
+
+.. code-block:: python
+
+    from tomlhold import Holder
+
+    def a(holder: Holder) -> Any:
+        return holder.setdefault("hello", "world", default=42)
+
+    def b(holder: Holder) -> Any:
+        try:
+            return holder["hello", "world"]
+        except KeyError:
+            holder["hello", "world"] = 42
+            return 42
+
+``tomlhold.test() -> unittest.TextTestResult``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This project can be tested through its test function.
+
+.. code-block:: python 
+
+    import tomlhold
+    tomlhold.test()
+
+License
+-------
+
+This project is licensed under the MIT License.
+
+Links
+-----
+
+- Download: https://pypi.org/project/tomlhold/#files
+- Index: https://pypi.org/project/tomlhold/
+- Source: https://github.com/johannes-programming/tomlhold/
+- Website: https://tomlhold.johannes-programming.online/
+
+Impressum
+---------
+
+**Johannes Programming**
+
+- Name: Johannes
+- Email: johannes.programming@gmail.com
+- Homepage: https://www.johannes-programming.online/
+- Gravatar: https://www.johannes-programming.fyi/
