@@ -4,8 +4,10 @@ from datetime import date, datetime, time
 from functools import partial
 from typing import *
 
+import setdoc
 import tomli_w
 from datahold import DataNaming
+from datarepr import datarepr
 from namings import FrozenNaming, Naming
 
 __all__ = ["TOMLHolder"]
@@ -64,6 +66,18 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     __slots__ = ("_frozen", "_unfrozen")
 
     data: FrozenNaming[FrozenNaming | tuple | VALUE]
+
+    @setdoc.basic
+    def __eq__(self: Self, other: Any) -> bool:
+        return type(self) is type(other) and self.data == other.data
+
+    __ne__ = object.__ne__
+
+    @setdoc.basic
+    def __repr__(self: Self) -> str:
+        return datarepr(type(self).__name__, dict(self))
+
+    __str__ = object.__str__
 
     @property
     def data(self: Self) -> FrozenNaming:

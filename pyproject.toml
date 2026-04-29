@@ -21,8 +21,9 @@ classifiers = [
 ]
 dependencies = [
     "datahold>=3.1.dev0,<4",
+    "datarepr>=1.1.4,<2",
     "namings>=1.0,<2",
-    "setdoc>=1.2.6,<2",
+    "setdoc>=1.2.12,<2",
     "tomli-w>=1.0,<2",
 ]
 description = "This project provides holders for TOML data."
@@ -30,7 +31,7 @@ keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "2.0.0a10"
+version = "2.0.0a11"
 
 [project.license]
 file = "LICENSE.txt"
