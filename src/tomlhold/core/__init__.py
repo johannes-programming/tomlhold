@@ -1,3 +1,4 @@
+import collections.abc
 import tomllib
 from datetime import date, datetime, time
 from functools import partial
@@ -32,7 +33,7 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     msg: str
     g: Iterable
     t: str
-    if isinstance(value, (Naming, FrozenNaming)):
+    if isinstance(value, collections.abc.Mapping):
         return getnaming(value, freeze=freeze)
     if isinstance(value, (list, tuple)):
         g = map(partial(getvalue, freeze=freeze), value)
