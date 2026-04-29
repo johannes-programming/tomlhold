@@ -3,14 +3,15 @@ from datetime import date, datetime, time
 from functools import partial
 from typing import *
 
+import setdoc
 import tomli_w
-from datahold import DataNaming
 from namings import FrozenNaming, Naming
+from datahold import DataNaming
 
 __all__ = ["TOMLHolder"]
 
 
-VALUE = bool | float | int | str | datetime | date | time
+VALUE = bool| float| int| str| datetime| date| time
 
 
 def getnaming(data: Any, /, *, freeze: bool = False) -> Naming | FrozenNaming:
@@ -51,22 +52,33 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     raise TypeError(msg)
 
 
-class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
+class TOMLHolder(DataNaming[FrozenNaming|tuple|VALUE]):
 
     __slots__ = ("_frozen", "_unfrozen")
 
-    data: FrozenNaming[FrozenNaming | tuple | VALUE]
+    data: FrozenNaming[FrozenNaming|tuple|VALUE]
 
     @property
-    def data(self: Self) -> FrozenNaming:
+    def data(self:Self) -> FrozenNaming:
         if self._frozen is None:
             self._frozen = getnaming(self._unfrozen, freeze=True)
         return self._frozen
-
+            
     @data.setter
-    def data(self: Self, value: Any) -> None:
+    def data(self:Self, value:Any) -> None:
         self._unfrozen = getvalue(value, freeze=False)
         self._frozen = None
+
+    def delitem(self:Self, key0:Any, /, *keys:Any)-> Naming|list|FrozenNaming|tuple|VALUE:
+        keys_:tuple
+        target: Any
+        keys_ = (key0,) + keys
+        target = self._unfrozen
+        for key in keys_[:-1]:
+            target = target[key]
+        del target[keys_[-1]] 
+        self._frozen = None
+
 
     def dump(self: Self, stream: Any, **kwargs: Any) -> None:
         "This method dumps the data into a byte stream."
@@ -80,6 +92,17 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     def dumps(self: Self, **kwargs: Any) -> str:
         "This method dumps the data as a string."
         return tomli_w.dumps(self._unfrozen, **kwargs)
+    
+    def getitem(self:Self, *keys:Any, frozen:bool = False)->Naming|list|FrozenNaming|tuple|VALUE:
+        key:Any
+        target: Any
+        if frozen:
+            target = self.data
+        else:
+            target = self._unfrozen
+        for key in keys:
+            target = target[key]
+        return target
 
     @classmethod
     def load(cls: type, stream: Any, **kwargs: Any) -> Self:
@@ -96,3 +119,16 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     def loads(cls: type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
         return cls(tomllib.loads(string, **kwargs).items())
+    
+
+    def setitem(self:Self, *keys:Any, value:Any)-> Naming|list|FrozenNaming|tuple|VALUE:
+        key:Any
+        target: Any
+        if len(keys) == 0:
+            self.data = getnaming(value)
+            return
+        target = self.data
+        for key in keys[:-1]:
+            target = target[key]
+        target[keys[-1]] = getvalue(value, freeze=False)
+        self._frozen = None
