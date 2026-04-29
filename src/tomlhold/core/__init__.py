@@ -66,7 +66,7 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
 
     @data.setter
     def data(self: Self, value: Any) -> None:
-        self._unfrozen = getvalue(value, freeze=False)
+        self._unfrozen = getnaming(value, freeze=False)
         self._frozen = None
 
     def dump(self: Self, stream: Any, **kwargs: Any) -> None:
