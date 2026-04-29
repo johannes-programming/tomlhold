@@ -14,29 +14,36 @@ __all__ = ["TOMLHolder"]
 VALUE = bool | float | int | str | datetime | date | time
 
 
-def getnaming(data: Any, /, *, freeze: bool = False) -> Naming | FrozenNaming:
+def getnaming(
+    data: Any, /, *, freeze: bool = False, load: bool = False
+) -> Naming | FrozenNaming:
     "This function returns a TOML dict."
     ans: Naming
+    items: Iterable
     x: Any
     y: Any
     ans = Naming()
-    for x, y in FrozenNaming(data):
-        ans[x] = getvalue(y, freeze=freeze)
+    if load:
+        items = data.items()
+    else:
+        items = FrozenNaming(data)
+    for x, y in items:
+        ans[x] = getvalue(y, freeze=freeze, load=False)
     if freeze:
         return FrozenNaming(ans)
     else:
         return ans
 
 
-def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
+def getvalue(value: Any, /, *, freeze: bool = False, load: bool = False) -> Any:
     "This function returns a TOML value."
     msg: str
     g: Iterable
     t: str
     if isinstance(value, collections.abc.Mapping):
-        return getnaming(value, freeze=freeze)
+        return getnaming(value, freeze=freeze, load=load)
     if isinstance(value, (list, tuple)):
-        g = map(partial(getvalue, freeze=freeze), value)
+        g = map(partial(getvalue, freeze=freeze, load=load), value)
         if freeze:
             return tuple(g)
         else:
@@ -85,7 +92,9 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     @classmethod
     def load(cls: type, stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
-        return cls(tomllib.load(stream, **kwargs).items())
+        dict_: dict
+        dict_ = tomllib.load(stream, **kwargs).items()
+        return cls(getnaming(dict_, freeze=True, load=True))
 
     @classmethod
     def loadfromfile(cls: type, file: str, **kwargs: Any) -> Self:
@@ -96,4 +105,6 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     @classmethod
     def loads(cls: type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
-        return cls(tomllib.loads(string, **kwargs).items())
+        dict_: dict
+        dict_ = tomllib.loads(string, **kwargs).items()
+        return cls(getnaming(dict_, freeze=True, load=True))
