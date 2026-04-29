@@ -19,7 +19,7 @@ def getnaming(data: Any, /, *, freeze: bool = False) -> Naming | FrozenNaming:
     x: Any
     y: Any
     ans = Naming()
-    for x in FrozenNaming(data).keys():
+    for x, y in FrozenNaming(data):
         ans[x] = getvalue(y, freeze=freeze)
     if freeze:
         return FrozenNaming(ans)
