@@ -93,7 +93,7 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     def load(cls: type, stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
         dict_: dict
-        dict_ = tomllib.load(stream, **kwargs).items()
+        dict_ = tomllib.load(stream, **kwargs)
         return cls(getnaming(dict_, freeze=True, load=True))
 
     @classmethod
@@ -106,5 +106,5 @@ class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
     def loads(cls: type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
         dict_: dict
-        dict_ = tomllib.loads(string, **kwargs).items()
+        dict_ = tomllib.loads(string, **kwargs)
         return cls(getnaming(dict_, freeze=True, load=True))
