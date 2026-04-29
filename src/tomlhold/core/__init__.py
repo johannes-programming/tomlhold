@@ -3,48 +3,28 @@ from datetime import date, datetime, time
 from functools import partial
 from typing import *
 
-import datahold
-import setdoc
 import tomli_w
-from frozendict import frozendict
+from datahold import DataNaming
+from namings import FrozenNaming, Naming
 
-__all__ = ["Holder", "TOMLHolder"]
+__all__ = ["TOMLHolder"]
 
 
-def getdict(data: dict, /, *, freeze: bool = False) -> dict | frozendict:
+VALUE = bool | float | int | str | datetime | date | time
+
+
+def getnaming(data: Any, /, *, freeze: bool = False) -> Naming | FrozenNaming:
     "This function returns a TOML dict."
-    ans: dict
-    msg: str
+    ans: Naming
     x: Any
-    ans = dict()
-    for x in frozendict(data).keys():
-        if type(x) is not str:
-            msg = "type %r is not allowed for keys of dictionaries"
-            msg %= type(x).__name__
-            raise TypeError(msg)
-        ans[x] = getvalue(data[x], freeze=freeze)
+    y: Any
+    ans = Naming()
+    for x in FrozenNaming(data).keys():
+        ans[x] = getvalue(y, freeze=freeze)
     if freeze:
-        return frozendict(ans)
+        return FrozenNaming(ans)
     else:
         return ans
-
-
-def getkey(key: int | str) -> int | str:
-    "This function returns a TOML key."
-    msg: str
-    if type(key) in (int, str):
-        return key
-    msg = "type %r is not allowed for keys"
-    msg %= type(key).__name__
-    raise TypeError(msg)
-
-
-def getkeys(keys: Any, /) -> list[int | str]:
-    "This function returns TOML keys."
-    if isinstance(keys, tuple):
-        return list(map(getkey, keys))
-    else:
-        return [getkey(keys)]
 
 
 def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
@@ -52,8 +32,8 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     msg: str
     g: Iterable
     t: str
-    if isinstance(value, (dict, frozendict)):
-        return getdict(value, freeze=freeze)
+    if isinstance(value, (Naming, FrozenNaming)):
+        return getnaming(value, freeze=freeze)
     if isinstance(value, (list, tuple)):
         g = map(partial(getvalue, freeze=freeze), value)
         if freeze:
@@ -71,71 +51,26 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     raise TypeError(msg)
 
 
-class TOMLHolder(datahold.OkayDict):
+class TOMLHolder(DataNaming[FrozenNaming | tuple | VALUE]):
 
-    data: frozendict
+    __slots__ = ("_frozen", "_unfrozen")
 
-    @setdoc.basic
-    def __delitem__(self: Self, keys: tuple | int | str) -> None:
-        ans: dict | list
-        keys_: list
-        lastkey: int | str
-        keys_ = getkeys(keys)
-        if keys_ == []:
-            self.clear()
-            return
-        lastkey = keys_.pop()
-        ans = self._data
-        while keys_:
-            ans = ans[keys_.pop(0)]
-        del ans[lastkey]
-
-    @setdoc.basic
-    def __getitem__(self: Self, keys: tuple | int | str) -> Any:
-        keys: list
-        key: Any
-        ans: Any
-        keys = getkeys(keys)
-        ans = self._data
-        for key in keys:
-            ans = ans[key]
-        ans = getvalue(ans)
-        return ans
-
-    @setdoc.basic
-    def __setitem__(self: Self, keys: tuple | int | str, value: Any) -> None:
-        lastkey: Any
-        keys_: list
-        data: Any
-        target: Any
-        k: Any
-        keys_ = getkeys(keys)
-        if keys_ == []:
-            self.data = value
-            return
-        lastkey = keys_.pop()
-        data = getdict(self._data)
-        target = data
-        for k in keys_:
-            if isinstance(target, dict):
-                target = target.setdefault(k, {})
-            else:
-                target = target[k]
-        target[lastkey] = value
-        self.data = data
+    data: FrozenNaming[FrozenNaming | tuple | VALUE]
 
     @property
-    @setdoc.basic
-    def data(self: Self) -> frozendict[str, Any]:
-        return getdict(self._data, freeze=True)
+    def data(self: Self) -> FrozenNaming:
+        if self._frozen is None:
+            self._frozen = getnaming(self._unfrozen, freeze=True)
+        return self._frozen
 
     @data.setter
     def data(self: Self, value: Any) -> None:
-        self._data = getdict(value)
+        self._unfrozen = getvalue(value, freeze=False)
+        self._frozen = None
 
     def dump(self: Self, stream: Any, **kwargs: Any) -> None:
         "This method dumps the data into a byte stream."
-        tomli_w.dump(self._data, stream, **kwargs)
+        tomli_w.dump(self._unfrozen, stream, **kwargs)
 
     def dumpintofile(self: Self, file: str, **kwargs: Any) -> None:
         "This method dumps the data into a file."
@@ -144,19 +79,12 @@ class TOMLHolder(datahold.OkayDict):
 
     def dumps(self: Self, **kwargs: Any) -> str:
         "This method dumps the data as a string."
-        return tomli_w.dumps(self._data, **kwargs)
-
-    def get(self: Self, *keys: int | str, default: Any = None) -> Any:
-        "This method returns self[*keys] if that exists, otherwise default."
-        try:
-            return self[keys]
-        except KeyError:
-            return default
+        return tomli_w.dumps(self._unfrozen, **kwargs)
 
     @classmethod
     def load(cls: type, stream: Any, **kwargs: Any) -> Self:
         "This classmethod loads data from byte stream."
-        return cls(tomllib.load(stream, **kwargs))
+        return cls(tomllib.load(stream, **kwargs).items())
 
     @classmethod
     def loadfromfile(cls: type, file: str, **kwargs: Any) -> Self:
@@ -167,17 +95,4 @@ class TOMLHolder(datahold.OkayDict):
     @classmethod
     def loads(cls: type, string: str, **kwargs: Any) -> Self:
         "This classmethod loads data from string."
-        return cls(tomllib.loads(string, **kwargs))
-
-    def setdefault(self: Self, *keys: int | str, default: Any) -> Any:
-        "This method returns self[*keys] after setting it to default if previously absent."
-        ans: Any
-        try:
-            ans = self[keys]
-        except Exception:
-            self[keys] = default
-            ans = self[keys]
-        return ans
-
-
-Holder: type = TOMLHolder
+        return cls(tomllib.loads(string, **kwargs).items())
