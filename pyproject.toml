@@ -20,8 +20,8 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "datahold>=3.1.dev0,<4",
-    "datarepr>=1.1.4,<2",
+    "datahold>=3.1.dev2,<4",
+    "datarepr>=1.1,<2",
     "namings>=1.0,<2",
     "setdoc>=1.2.12,<2",
     "tomli-w>=1.0,<2",
@@ -31,7 +31,7 @@ keywords = []
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "2.0.0a11"
+version = "2.0.0a12"
 
 [project.license]
 file = "LICENSE.txt"

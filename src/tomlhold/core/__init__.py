@@ -22,13 +22,13 @@ def getnaming(
     *,
     freeze: bool = False,
 ) -> Naming | FrozenNaming:
-    "This function returns a TOML dict."
+    "This function returns a TOML naming."
     ans: Naming
     items: Iterable
     x: Any
     y: Any
     ans = Naming()
-    items = FrozenNaming(**data)
+    items = FrozenNaming(data)
     for x, y in items:
         ans[x] = getvalue(y, freeze=freeze)
     if freeze:
@@ -41,7 +41,7 @@ def getvalue(value: Any, /, *, freeze: bool = False) -> Any:
     "This function returns a TOML value."
     msg: str
     g: Iterable
-    t: str
+    t: type
     if isinstance(value, collections.abc.Mapping):
         return getnaming(value, freeze=freeze)
     if isinstance(value, (list, tuple)):
