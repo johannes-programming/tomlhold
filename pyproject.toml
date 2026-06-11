@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=64.0",
+    "setuptools>=77.0",
 ]
 
 [project]
@@ -11,7 +11,6 @@ authors = [
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
@@ -23,20 +22,28 @@ dependencies = [
     "datahold>=2.0,<3",
     "frozendict>=2.4.6,<3",
     "setdoc>=1.2.6,<2",
-    "tomli-w>=1.0,<2",
+    "tomli-w>=1.2,<2",
 ]
 description = "This project provides holders for TOML data."
 keywords = []
+license = "MIT"
+license-files = [
+    "LICENSE.txt",
+]
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.1.9"
-
-[project.license]
-file = "LICENSE.txt"
+version = "1.1.10"
 
 [project.urls]
 Download = "https://pypi.org/project/tomlhold/#files"
 Index = "https://pypi.org/project/tomlhold/"
 Source = "https://github.com/johannes-programming/tomlhold/"
 Website = "https://tomlhold.johannes-programming.online/"
+
+[tool.mypy]
+files = [
+    ".",
+]
+python_version = "3.11"
+strict = false

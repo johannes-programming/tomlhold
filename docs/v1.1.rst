@@ -1,12 +1,13 @@
 Overview
 --------
 
-This project provides dict-like holders for TOML data.
+This project provides ``dict``-like holders for TOML data.
 
 Installation
 ------------
 
-To install tomlhold, you can use pip. Open your terminal and run:
+To install tomlhold, you can use ``pip``.
+Open your terminal and run:
 
 .. code-block:: shell
 
@@ -15,10 +16,10 @@ To install tomlhold, you can use pip. Open your terminal and run:
 Features
 --------
 
-``Holder: type = TOMLHolder``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``Holder: Final[type[tomlhold.TOMLHolder]] = tomlhold.TOMLHolder``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This variable is an alias for TOMLHolder, included for legacy.
+This variable is an alias for ``TOMLHolder``, included for legacy.
 
 .. container:: versionchanged
 
@@ -27,7 +28,8 @@ This variable is an alias for TOMLHolder, included for legacy.
 ``class tomlhold.TOMLHolder(data: Any = None)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TOMLHolder is a subclass of datahold.OkayDict specifically for handling TOML. All features that are overwritten are described below.
+``TOMLHolder`` is a subclass of ``datahold.OkayDict`` specifically for handling TOML.
+All features that are overwritten are described below.
 
 Here's a simple example:
 
@@ -92,10 +94,11 @@ Here's a simple example:
 
 .. container:: versionadded
 
-    **Added in version 1.1:** This class was previously tomlhold.Holder.
+    **Added in version 1.1:** This class was previously ``tomlhold.Holder``.
 
 ``__delitem__(keys: tuple | int | str) -> None``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 This magic method deletes a value at the location specified by a sequence of keys.
 
 ``__getitem__(keys: tuple | int | str) -> Any``
@@ -111,7 +114,8 @@ This magic method alters a value at the location specified by a sequence of keys
 ``dump(stream: Any, **kwargs: Any) -> None``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This method dumps the data of the current instance into a byte stream. The following two functions are equivalent:
+This method dumps the data of the current instance into a byte stream.
+The following two functions are equivalent:
 
 .. code-block:: python
 
@@ -129,7 +133,8 @@ This method dumps the data of the current instance into a byte stream. The follo
 ``dumpintofile(file: str, **kwargs: Any) -> None``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This method dumps the data of the current instance into a file. The following two functions are equivalent:
+This method dumps the data of the current instance into a file.
+The following two functions are equivalent:
 
 .. code-block:: python
 
@@ -146,7 +151,8 @@ This method dumps the data of the current instance into a file. The following tw
 ``dumps(**kwargs: Any) -> str``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This method dumps the data of the current instance into a string. The following two functions are equivalent:
+This method dumps the data of the current instance into a string.
+The following two functions are equivalent:
 
 .. code-block:: python
 
@@ -180,17 +186,17 @@ The following two functions are equivalent:
 ``load(stream: Any) -> Self``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This classmethod loads data from a byte stream and create a new TOMLHolder instance from it.
+This ``classmethod`` loads data from a byte stream and create a new ``TOMLHolder`` instance from it.
 
 ``loadfromfile(file: str) -> Self``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This classmethod loads data from a file and create a new TOMLHolder instance from it.
+This ``classmethod`` loads data from a file and create a new ``TOMLHolder`` instance from it.
 
 ``loads(string: Any) -> Self``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This classmethod converts the given value into a string before loading data from it to create a new TOMLHolder instance.
+This ``classmethod`` converts the given value into a string before loading data from it to create a new ``TOMLHolder`` instance.
 
 ``setdefault(*keys: Any, default: Any = None) -> Any``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -211,15 +217,15 @@ The following two functions are equivalent:
             holder["hello", "world"] = 42
             return 42
 
-``tomlhold.test() -> unittest.TextTestResult``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``tomlhold.tests.test() -> unittest.TextTestResult``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This project can be tested through its test function.
+This project can be tested through its ``test`` function.
 
 .. code-block:: python
 
-    import tomlhold
-    tomlhold.test()
+    import tomlhold.tests
+    tomlhold.tests.test()
 
 License
 -------
