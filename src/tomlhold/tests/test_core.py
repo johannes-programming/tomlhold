@@ -1,7 +1,9 @@
 import unittest
-from typing import *
+from typing import Any, Self
 
-from tomlhold.core import TOMLHolder
+from tomlhold.core.TOMLHolder import TOMLHolder
+
+__all__ = ["TestTOMLHolder"]
 
 
 class TestTOMLHolder(unittest.TestCase):
@@ -44,25 +46,28 @@ class TestTOMLHolder(unittest.TestCase):
 
     def test_update(self: Self) -> None:
         "This testmethod tests if the update method works correctly."
-        new_data: dict = {"key3": "value3", "key4": "value4"}
+        new_data: dict
+        new_data = {"key3": "value3", "key4": "value4"}
         self.holder.update(new_data)
         self.assertEqual(self.holder["key3"], "value3")
         self.assertEqual(self.holder["key4"], "value4")
 
     def test_iteration(self: Self) -> None:
         "This testmethod tests if iteration over keys works."
-        key: Any
-        keys: list = list(self.holder)
+        keys: list
+        keys = list(self.holder)
         self.assertListEqual(keys, list(self.initial_data.keys()))
 
     def test_copy(self: Self) -> None:
         "This testmethod tests if copy works correctly."
-        holder_copy: TOMLHolder = self.holder.copy()
+        holder_copy: TOMLHolder
+        holder_copy = self.holder.copy()
         self.assertEqual(holder_copy, self.holder)
 
     def test_equality(self: Self) -> None:
         "This testmethod tests equality of two TOMLHolder instances."
-        holder2: TOMLHolder = TOMLHolder(self.initial_data)
+        holder2: TOMLHolder
+        holder2 = TOMLHolder(self.initial_data)
         self.assertEqual(self.holder, holder2)
         holder2["key3"] = "value3"
         self.assertNotEqual(self.holder, holder2)
@@ -74,25 +79,31 @@ class TestTOMLHolder(unittest.TestCase):
 
     def test_initialization_with_toml(self: Self) -> None:
         "This testmethod tests if the TOMLHolder initializes correctly with TOML data."
-        toml_data: str = """
+        holder: TOMLHolder
+        toml_data: str
+        toml_data = """
         [section]
         key1 = "value1"
         key2 = "value2"
         [section.nested]
         nested_key1 = "nested_value1"
         """
-        holder: TOMLHolder = TOMLHolder.loads(toml_data)
+        holder = TOMLHolder.loads(toml_data)
         self.assertEqual(holder["section", "key1"], "value1")
-        self.assertEqual(holder["section"]["nested"]["nested_key1"], "nested_value1")
+        self.assertEqual(
+            holder["section"]["nested"]["nested_key1"], "nested_value1"
+        )
 
     def test_invalid_key_access(self: Self) -> None:
         "This testmethod tests if accessing a non-existent key raises KeyError."
+        x: Any
         with self.assertRaises(KeyError):
-            _: Any = self.holder["non_existent_key"]
+            x = self.holder["non_existent_key"]
 
     def test_pop(self: Self) -> None:
         "This testmethod tests if pop works correctly."
-        value: Any = self.holder.pop("key1")
+        value: Any
+        value = self.holder.pop("key1")
         self.assertEqual(value, "value1")
         self.assertNotIn("key1", self.holder)
 
@@ -106,11 +117,15 @@ class TestTOMLHolder(unittest.TestCase):
 
     def test_keys_values_items(self: Self) -> None:
         "This testmethod tests keys(), values(), and items() methods."
-        self.assertListEqual(list(self.holder.keys()), list(self.initial_data.keys()))
+        self.assertListEqual(
+            list(self.holder.keys()), list(self.initial_data.keys())
+        )
         self.assertListEqual(
             list(self.holder.values()), list(self.initial_data.values())
         )
-        self.assertListEqual(list(self.holder.items()), list(self.initial_data.items()))
+        self.assertListEqual(
+            list(self.holder.items()), list(self.initial_data.items())
+        )
 
 
 if __name__ == "__main__":
