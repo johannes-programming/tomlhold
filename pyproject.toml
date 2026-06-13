@@ -33,7 +33,7 @@ license-files = [
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "2.0.0"
+version = "2.0.1"
 
 [project.urls]
 Download = "https://pypi.org/project/tomlhold/#files"
