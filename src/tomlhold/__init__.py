@@ -1,4 +1,8 @@
-from tomlhold.core.TOMLDict import TOMLDict
-from tomlhold.core.TOMLList import TOMLList
+"""Export the public TOML data holder classes."""
 
-__all__ = ["TOMLDict", "TOMLList"]
+from __future__ import annotations
+
+__all__: list[str] = ["TOMLDict", "TOMLList"]
+
+from .core.TOMLDict import TOMLDict
+from .core.TOMLList import TOMLList

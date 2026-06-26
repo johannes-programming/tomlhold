@@ -1,9 +1,14 @@
-import unittest
+"""Run the unit tests for the tomlhold package."""
 
-__all__ = ["main"]
+from __future__ import annotations
+
+__all__: list[str] = ["main"]
+
+import unittest
 
 
 def main() -> unittest.TextTestResult:
+    "Run discovered tests via unittest and return the TextTestResult."
     loader: unittest.TestLoader
     suite: unittest.TestSuite
     runner: unittest.TextTestRunner

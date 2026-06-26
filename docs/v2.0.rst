@@ -1,0 +1,85 @@
+Overview
+--------
+
+This project provides ``dict``-like holders for TOML data.
+
+Installation
+------------
+
+To install ``tomlhold``, you can use ``pip``.
+Open your terminal and run:
+
+.. code-block:: shell
+
+    pip install tomlhold
+
+Typing
+------
+
+The typing conforms strictly to ``mypy``.
+
+Features
+--------
+
+``class tomlhold.TOMLDict(data: SupportsKeysAndGetitem[object, Any] | Iterable[tuple[object, Any]], /)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This subclass of ``datahold.HoldDict[str, Any]`` represents TOML tables.
+
+``dump(stream: Any, /, **kwargs: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a byte stream.
+
+``dumpintofile(file: str, /, **kwargs: Any) -> None``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a file.
+
+``dumps(**kwargs: Any) -> str``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This method dumps the data of the current instance into a string.
+
+``load(stream: Any, /) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This ``classmethod`` loads data from a byte stream and creates a new instance from it.
+
+``loadfromfile(file: str, /) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This ``classmethod`` loads data from a file and creates a new instance from it.
+
+``loads(string: str, /) -> Self``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This ``classmethod`` loads data from a string and creates a new instance from it.
+
+``class tomlhold.TOMLList(data: Iterable[Any] = (), /)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This subclass of ``datahold.HoldList[Any]`` represents TOML arrays.
+
+License
+-------
+
+This project is licensed under the MIT License.
+
+Links
+-----
+
+- Download: https://pypi.org/project/tomlhold/#files
+- Index: https://pypi.org/project/tomlhold/
+- Source: https://github.com/johannes-programming/tomlhold/
+- Website: https://tomlhold.johannes-programming.online/
+
+Impressum
+---------
+
+**Johannes Programming**
+
+- Name: Johannes
+- Email: johannes.programming@gmail.com
+- Homepage: https://www.johannes-programming.online/
+- Gravatar: https://www.johannes-programming.fyi/
