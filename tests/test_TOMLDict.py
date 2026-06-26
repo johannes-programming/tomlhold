@@ -1,19 +1,26 @@
+"""Test the TOMLDict class."""
+
 from __future__ import annotations
 
+__all__: list[str] = ["TestTOMLDict"]
 import io
 import math
+import os
 import tempfile
 import unittest
 from datetime import date, datetime, time, timezone
+from typing import Any
 
 from tomlhold import TOMLDict, TOMLList
 
-__all__ = ["TestTOMLDict"]
-
 
 class TestTOMLDict(unittest.TestCase):
+    "Test the TOMLDict class and its TOML data handling behavior."
+
     def test_keys_are_converted_to_strings(self) -> None:
-        holder = TOMLDict({1: "one", "two": 2})
+        "Test that keys are converted to strings."
+        holder: TOMLDict
+        holder = TOMLDict({1: "one", "two": 2})  # type: ignore[arg-type]
 
         self.assertIn("1", holder.data)
         self.assertNotIn(1, holder.data)
@@ -21,6 +28,8 @@ class TestTOMLDict(unittest.TestCase):
         self.assertEqual(holder.data["two"], 2)
 
     def test_nested_mappings_and_sequences_are_wrapped(self) -> None:
+        "Test that nested mappings and sequences are wrapped in holders."
+        holder: TOMLDict
         holder = TOMLDict(
             {
                 "table": {"answer": 42},
@@ -42,6 +51,11 @@ class TestTOMLDict(unittest.TestCase):
         self.assertEqual(holder.data["string"], "abc")
 
     def test_supported_scalar_values_are_preserved(self) -> None:
+        "Test that supported scalar values are preserved."
+        dt: datetime
+        d: date
+        t: time
+        holder: TOMLDict
         dt = datetime(2026, 6, 13, 12, 30, 15, 123456, tzinfo=timezone.utc)
         d = date(2026, 6, 13)
         t = time(12, 30, 15, 123456, tzinfo=timezone.utc)
@@ -69,23 +83,29 @@ class TestTOMLDict(unittest.TestCase):
         self.assertTrue(math.isnan(holder.data["none"]))
 
     def test_invalid_value_type_raises_type_error(self) -> None:
+        "Test that invalid value type raises type error."
+
         class Unsupported:
-            pass
+            "Unsupported dummy class used to test type validation error."
 
         with self.assertRaises(TypeError):
             TOMLDict({"bad": Unsupported()})
 
     def test_data_assignment_rebuilds_holder_data(self) -> None:
+        "Test that data assignment rebuilds holder data."
+        holder: TOMLDict
         holder = TOMLDict({"old": 1})
-
         holder.data = {"new": [1, 2, 3]}
-
         self.assertNotIn("old", holder.data)
         self.assertIn("new", holder.data)
         self.assertIsInstance(holder.data["new"], TOMLList)
         self.assertEqual(holder.data["new"].data, (1, 2, 3))
 
     def test_dumps_and_loads_round_trip(self) -> None:
+        "Test dumps and loads round trip."
+        original: TOMLDict
+        dumped: str
+        loaded: TOMLDict
         original = TOMLDict(
             {
                 "project": {"name": "tomlhold", "version": "2.0.0"},
@@ -104,22 +124,30 @@ class TestTOMLDict(unittest.TestCase):
         self.assertIs(loaded.data["enabled"], True)
 
     def test_dump_and_load_byte_stream_round_trip(self) -> None:
+        "Test dump and load byte stream round trip."
+        loaded: TOMLDict
+        original: TOMLDict
+        stream: io.BytesIO
         original = TOMLDict({"name": "stream", "values": [1, 2]})
         stream = io.BytesIO()
-
         original.dump(stream)
         stream.seek(0)
         loaded = TOMLDict.load(stream)
-
         self.assertEqual(loaded.data["name"], "stream")
         self.assertEqual(loaded.data["values"].data, (1, 2))
 
     def test_dumpintofile_and_loadfromfile_round_trip(self) -> None:
+        "Test dumpintofile and loadfromfile round trip."
+        loaded: TOMLDict
+        original: TOMLDict
+        tmpdir: str
+        path: str
         original = TOMLDict({"name": "file", "values": [3, 4]})
 
-        with tempfile.NamedTemporaryFile(suffix=".toml") as temp_file:
-            original.dumpintofile(temp_file.name)
-            loaded = TOMLDict.loadfromfile(temp_file.name)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = os.path.join(tmpdir, "test.toml")
+            original.dumpintofile(path)
+            loaded = TOMLDict.loadfromfile(path)
 
         self.assertEqual(loaded.data["name"], "file")
         self.assertEqual(loaded.data["values"].data, (3, 4))

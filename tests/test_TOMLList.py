@@ -1,20 +1,28 @@
+"""Test the TOMLList class."""
+
 from __future__ import annotations
+
+__all__: list[str] = ["TestTOMLList"]
 
 import unittest
 
 from tomlhold import TOMLDict, TOMLList
 
-__all__ = ["TestTOMLList"]
-
 
 class TestTOMLList(unittest.TestCase):
+    "Test the TOMLList class and its TOML array handling behavior."
+
     def test_list_data_is_stored_as_tuple(self) -> None:
+        "Test that list data is stored as tuple."
+        holder: TOMLList
         holder = TOMLList([1, "two", True])
 
         self.assertEqual(holder.data, (1, "two", True))
         self.assertIsInstance(holder.data, tuple)
 
     def test_nested_values_are_wrapped(self) -> None:
+        "Test that nested values are wrapped in holders."
+        holder: TOMLList
         holder = TOMLList([{"name": "item"}, [1, 2], "abc"])
 
         self.assertIsInstance(holder.data[0], TOMLDict)
@@ -24,13 +32,17 @@ class TestTOMLList(unittest.TestCase):
         self.assertEqual(holder.data[2], "abc")
 
     def test_invalid_list_value_type_raises_type_error(self) -> None:
+        "Test that invalid list value type raises type error."
+
         class Unsupported:
-            pass
+            "Unsupported dummy class used to test type validation error."
 
         with self.assertRaises(TypeError):
             TOMLList([Unsupported()])
 
     def test_data_assignment_rebuilds_list_data(self) -> None:
+        "Test that data assignment rebuilds list data."
+        holder: TOMLList
         holder = TOMLList([1])
 
         holder.data = [{"nested": "yes"}]

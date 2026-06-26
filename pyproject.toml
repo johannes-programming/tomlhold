@@ -21,7 +21,7 @@ classifiers = [
 dependencies = [
     "datahold>=3.0,<4",
     "frozendict>=2.4.6,<3",
-    "setdoc>=1.3.14,<2",
+    "setdoc>=1.3.17,<2",
     "tomli-w>=1.2,<2",
 ]
 description = "This project provides holders for TOML data."
@@ -33,7 +33,7 @@ license-files = [
 name = "tomlhold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "2.0.1"
+version = "2.0.4"
 
 [project.urls]
 Download = "https://pypi.org/project/tomlhold/#files"
