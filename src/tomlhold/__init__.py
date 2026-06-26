@@ -1,8 +1,3 @@
-from typing import Final
+from tomlhold.core import TOMLDict, TOMLList
 
-from tomlhold.core.TOMLHolder import TOMLHolder
-
-__all__ = ["Holder", "TOMLHolder"]
-
-
-Holder: Final[type[TOMLHolder]] = TOMLHolder
+__all__ = ["TOMLDict", "TOMLList"]
