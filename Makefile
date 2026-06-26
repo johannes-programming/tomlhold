@@ -59,7 +59,7 @@ test: beautiful
 	conda run -n test_tomlhold pip install -e . >/dev/null;
 	conda run -n test_tomlhold python run_tests.py;
 	conda run -n test_tomlhold pip install mypy >/dev/null;
-	conda run -n test_tomlhold python -m mypy --exclude build --strict .;
+	conda run -n test_tomlhold python -m mypy --exclude build --exclude dist --strict .;
 	conda run -n test_tomlhold python -m mypy --strict -p tomlhold;
 
 toml_sorted: works
